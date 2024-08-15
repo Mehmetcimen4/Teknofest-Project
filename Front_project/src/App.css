@@ -1,0 +1,123 @@
+/* Ekranı tamamen kaplayan bir düzen oluşturmak için */
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #66cdaa;
+  padding: 20px;
+}
+
+/* Başlık için yukarıdaki stil korundu */
+.app-header {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #3c3c3c;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Menü, ortalanmış bir düzen için aşağıdaki gibi */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  background-color: rgba(0, 100, 0, 0.5); /* Koyu yeşil ve şeffaf arka plan */
+  padding: 20px;
+  border-radius: 10px; /* Köşeleri yuvarlamak için */
+}
+
+
+/* Menü butonları için stil */
+.menu-button {
+  width: 180px; /* Butonun genişliği biraz küçültüldü */
+  padding: 10px; /* Butonun iç boşluğu azaltıldı */
+  margin: 20px 20pxq;
+  font-size: 1rem; /* Yazı boyutu biraz küçültüldü */
+  color: white;
+  background-color: #4682b4;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+}
+
+.menu-button:hover {
+  background-color: #5a9bd6;
+}
+
+.sinif-detay {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+  margin-top: 20px;
+}
+
+.course-button {
+  background-color: #4CAF50;
+  padding: 15px 20px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  width: 150px;
+  text-align: center;
+}
+
+.course-button:hover {
+  background-color: #45a049;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #d32f2f;
+}
+
+
+/* Footer butonları ekranın ortasında kalacak şekilde */
+.footer {
+  margin-top: 20px;
+}
+
+.footer-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #4682b4;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+}
+
+.footer-button:hover {
+  background-color: #5a9bd6;
+}
