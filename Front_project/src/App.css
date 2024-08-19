@@ -4,20 +4,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  max-height: 100vh;
   background-color: #66cdaa;
   padding: 20px;
 }
 
 /* Başlık için yukarıdaki stil korundu */
 .app-header {
-  margin-bottom: 20px;
+  position: relative;
+  top: -85px;
+  margin-bottom: 10px;
+  
+  
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   color: #3c3c3c;
   font-family: 'Arial', sans-serif;
+  
+  
 }
 
 /* Menü, ortalanmış bir düzen için aşağıdaki gibi */
@@ -54,6 +60,18 @@
 .sinif-detay {
   text-align: center;
   margin-top: 20px;
+}
+
+.lise-page {
+  text-align: center;
+}
+
+.unite-detay {
+  text-align: center;
+}
+
+.konu-detay {
+  text-align: center;
 }
 
 .courses-grid {
@@ -95,6 +113,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 }
 
 .back-button:hover {
@@ -116,6 +135,7 @@
   border-radius: 10px;
   cursor: pointer;
   font-family: 'Arial', sans-serif;
+  margin-top: 35px;
 }
 
 .footer-button:hover {
