@@ -17,16 +17,20 @@ function Registration() {
   return (
     <div className="registration-page">
       <h2>Oyuncu Kaydı</h2>
-      <div className="player-input">
-        <label>Oyuncu 1:</label>
-        <input type="text" value={player1} onChange={(e) => setPlayer1(e.target.value)} />
+      <div className='menu'>
+        <div className="player-input">
+          <label>Oyuncu 1:</label>
+          <input type="text" value={player1} onChange={(e) => setPlayer1(e.target.value)} />
+        </div>
+        <div className="player-input">
+          <label>Oyuncu 2:</label>
+          <input type="text" value={player2} onChange={(e) => setPlayer2(e.target.value)} />
+        </div>
+        <button onClick={handleStartGame} className="start-button">Oyunu Başlat</button>
+        
       </div>
-      <div className="player-input">
-        <label>Oyuncu 2:</label>
-        <input type="text" value={player2} onChange={(e) => setPlayer2(e.target.value)} />
-      </div>
-      <button onClick={handleStartGame} className="start-button">Oyunu Başlat</button>
       <button onClick={() => navigate(-1)} className="back-button">Geri</button>
+      
     </div>
   );
 }
