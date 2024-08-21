@@ -141,3 +141,74 @@
 .footer-button:hover {
   background-color: #5a9bd6;
 }
+
+/* Registration sayfası için genel düzen */
+.registration-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ekranı tamamen kaplar */
+  background-color: #66cdaa;
+}
+
+.registration-page h2 {
+  font-size: 2rem;
+  color: #3c3c3c;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Oyuncu girişi kutuları */
+.player-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 400px;
+}
+
+.player-input label {
+  font-size: 1.2rem;
+  color: #3c3c3c;
+  margin-bottom: 5px;
+}
+
+.player-input input {
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #4682b4;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Oyunu başlat butonu */
+.start-button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #4682b4;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+  margin-top: 20px;
+}
+
+.start-button:hover {
+  background-color: #5a9bd6;
+}
+
+/* Mobil uyumlu tasarım için */
+@media (max-width: 768px) {
+  .player-input {
+    width: 90%;
+  }
+  
+  .start-button {
+    width: 80%;
+    font-size: 1.1rem;
+  }
+}

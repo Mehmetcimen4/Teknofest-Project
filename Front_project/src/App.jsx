@@ -14,33 +14,27 @@ function App() {
         </header>
         {!isClassSelected && (
           <>
-           <div className="menu">
-            <Link to="/sinif" className="menu-button" onClick={() => setIsClassSelected(true)}>Sınıf</Link>
-            <Link to="/tek-kisilik" className="menu-button">Tek Kişilik</Link>
-            <Link to="/online" className="menu-button">Online</Link>
-            
-          </div>
-          <div>
-            <button className="footer-button">Nasıl Oynanır ?</button>
-          </div>
+            <div className="menu">
+              <Link to="/sinif" className="menu-button" onClick={() => setIsClassSelected(true)}>Sınıf</Link>
+              <Link to="/tek-kisilik" className="menu-button">Tek Kişilik</Link>
+              <Link to="/online" className="menu-button">Online</Link>
+            </div>
+            <div>
+              <button className="footer-button">Nasıl Oynanır?</button>
+            </div>
           </>
-         
-          
-          
         )}
         {isClassSelected && !isLiseSelected && (
           <>
-          <div className="menu">
-            <Link to="/sinif/ilkokul" className="menu-button">İlkokul</Link>
-            <Link to="/sinif/ortaokul" className="menu-button">Ortaokul</Link>
-            <Link to="/sinif/lise" className="menu-button" onClick={() => setIsLiseSelected(true)}>Lise</Link>
-            
-          </div>
-          <div>
-            <button onClick={() => setIsClassSelected(false)} className="back-button">Geri</button>
-          </div>
+            <div className="menu">
+              <Link to="/sinif/ilkokul" className="menu-button">İlkokul</Link>
+              <Link to="/sinif/ortaokul" className="menu-button">Ortaokul</Link>
+              <Link to="/sinif/lise" className="menu-button" onClick={() => setIsLiseSelected(true)}>Lise</Link>
+            </div>
+            <div>
+              <button onClick={() => setIsClassSelected(false)} className="back-button">Geri</button>
+            </div>
           </>
-          
         )}
         {isLiseSelected && (
           <div className="content">
@@ -50,19 +44,64 @@ function App() {
               <Route path="/sinif/lise/10" element={<SinifDetay sinif="10. Sınıf" />} />
               <Route path="/sinif/lise/11" element={<SinifDetay sinif="11. Sınıf" />} />
               <Route path="/sinif/lise/12" element={<SinifDetay sinif="12. Sınıf" />} />
-              <Route path="/sinif/lise/:ders" element={<UniteDetay />} />
-              <Route path="/sinif/lise/:ders/:unite" element={<KonuDetay />} />
+              <Route path="/sinif/lise/:ders/konular" element={<UniteDetay />} />
+              <Route path="/sinif/lise/:ders/:unite/konular" element={<KonuDetay />} />
+              <Route path="/sinif/lise/:ders/:unite/konular/:konu/registration" element={<Registration />} />
+              <Route path="/sinif/lise/:ders/:unite/konular/:konu/game" element={<GamePage />} />
             </Routes>
           </div>
         )}
-        
       </div>
     </Router>
   );
 }
-/*<footer className="footer">
-          <button className="footer-button">Nasıl Oynanır ?</button>
-</footer>*/
+
+function Registration() {
+  const navigate = useNavigate();
+  const [player1, setPlayer1] = useState('');
+  const [player2, setPlayer2] = useState('');
+
+  const handleStartGame = () => {
+    if (player1 && player2) {
+      // Oyuncu isimlerini game sayfasına geçerken taşı
+      navigate('/sinif/lise/tarih/ünite1/konular/konu1/game', { state: { player1, player2 } });
+    } else {
+      alert('Lütfen her iki oyuncunun adını da girin.');
+    }
+  };
+
+  return (
+    <div className="registration-page">
+      <h2>Oyuncu Kaydı</h2>
+      <div className="player-input">
+        <label>Oyuncu 1:</label>
+        <input type="text" value={player1} onChange={(e) => setPlayer1(e.target.value)} />
+      </div>
+      <div className="player-input">
+        <label>Oyuncu 2:</label>
+        <input type="text" value={player2} onChange={(e) => setPlayer2(e.target.value)} />
+      </div>
+      <button onClick={handleStartGame} className="start-button">Oyunu Başlat</button>
+      {/* Geri butonu eklendi */}
+      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
+    </div>
+  );
+}
+
+function GamePage() {
+  const location = useNavigate().location;
+  const { player1, player2 } = location.state || { player1: '', player2: '' };
+
+  return (
+    <div className="game-page">
+      <h2>Game Page</h2>
+      <p>Oyuncu 1: {player1}</p>
+      <p>Oyuncu 2: {player2}</p>
+      {/* Buraya oyun mantığını ekleyebilirsiniz */}
+    </div>
+  );
+}
+
 function Lise({ setIsLiseSelected }) {
   const navigate = useNavigate();
 
@@ -70,10 +109,9 @@ function Lise({ setIsLiseSelected }) {
     setIsLiseSelected(false);
     navigate('/sinif'); // Kategorilere geri döner
   };
-//<h2>Lise Sınıf Seçimi</h2>
+
   return (
     <div className='lise-page'>
-      <>
       <div className="menu">
         <Link to="/sinif/lise/9" className="menu-button">9. Sınıf</Link>
         <Link to="/sinif/lise/10" className="menu-button">10. Sınıf</Link>
@@ -83,10 +121,6 @@ function Lise({ setIsLiseSelected }) {
       <div>
         <button onClick={handleBackClick} className="back-button">Geri</button>
       </div>
-      
-      </>
-      
-      
     </div>
   );
 }
@@ -111,7 +145,7 @@ function SinifDetay({ sinif }) {
       <h2>{sinif} Dersleri</h2>
       <div className="courses-grid">
         {courses.map((course) => (
-          <Link key={course.name} to={course.path} className="course-button">
+          <Link key={course.name} to={`${course.path}/konular`} className="course-button">
             {course.name}
           </Link>
         ))}
@@ -141,7 +175,7 @@ function UniteDetay() {
       <h2>Üniteler</h2>
       <div className="courses-grid">
         {unites.map((unite) => (
-          <Link key={unite.name} to={unite.path} className="course-button">
+          <Link key={unite.name} to={`${unite.path}/konular`} className="course-button">
             {unite.name}
           </Link>
         ))}
@@ -155,10 +189,10 @@ function KonuDetay() {
   const navigate = useNavigate();
 
   const topics = [
-    { name: "Konu 1", path: "/sinif/lise/tarih/ünite1/konu1" },
-    { name: "Konu 2", path: "/sinif/lise/tarih/ünite2/konu2" },
-    { name: "Konu 3", path: "/sinif/lise/tarih/ünite3/konu3" },
-    { name: "Konu 4", path: "/sinif/lise/tarih/ünite3/konu4" }
+    { name: "Konu 1", path: "/sinif/lise/tarih/ünite1/konular/konu1" },
+    { name: "Konu 2", path: "/sinif/lise/tarih/ünite2/konular/konu2" },
+    { name: "Konu 3", path: "/sinif/lise/tarih/ünite3/konular/konu3" },
+    { name: "Konu 4", path: "/sinif/lise/tarih/ünite4/konular/konu4" }
   ];
 
   return (
@@ -166,22 +200,15 @@ function KonuDetay() {
       <h2>Konular</h2>
       <div className="courses-grid">
         {topics.map((topic) => (
-          <Link key={topic.name} to={topic.path} className="course-button">
+          <Link key={topic.name} to={`${topic.path}/registration`} className="course-button">
             {topic.name}
           </Link>
         ))}
       </div>
+      {/* Geri butonu eklendi */}
       <button onClick={() => navigate(-1)} className="back-button">Geri</button>
     </div>
   );
-}
-
-function TekKisilik() {
-  return <div>Tek Kişilik içeriği buraya gelecek.</div>;
-}
-
-function Online() {
-  return <div>Online içeriği buraya gelecek.</div>;
 }
 
 export default App;
