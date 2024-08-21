@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
+
+// Bileşenleri import edin
+import GamePage from './pages/GamePage';
+import Registration from './pages/Registration';
+import Lise from './pages/Lise';
+import SinifDetay from './pages/SinifDetay';
+import UniteDetay from './pages/UniteDetay';
+import KonuDetay from './pages/KonuDetay';
 
 function App() {
   const [isClassSelected, setIsClassSelected] = useState(false);
@@ -53,161 +61,6 @@ function App() {
         )}
       </div>
     </Router>
-  );
-}
-
-function Registration() {
-  const navigate = useNavigate();
-  const [player1, setPlayer1] = useState('');
-  const [player2, setPlayer2] = useState('');
-
-  const handleStartGame = () => {
-    if (player1 && player2) {
-      // Oyuncu isimlerini game sayfasına geçerken taşı
-      navigate('/sinif/lise/tarih/ünite1/konular/konu1/game', { state: { player1, player2 } });
-    } else {
-      alert('Lütfen her iki oyuncunun adını da girin.');
-    }
-  };
-
-  return (
-    <div className="registration-page">
-      <h2>Oyuncu Kaydı</h2>
-      <div className="player-input">
-        <label>Oyuncu 1:</label>
-        <input type="text" value={player1} onChange={(e) => setPlayer1(e.target.value)} />
-      </div>
-      <div className="player-input">
-        <label>Oyuncu 2:</label>
-        <input type="text" value={player2} onChange={(e) => setPlayer2(e.target.value)} />
-      </div>
-      <button onClick={handleStartGame} className="start-button">Oyunu Başlat</button>
-      {/* Geri butonu eklendi */}
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
-    </div>
-  );
-}
-
-function GamePage() {
-  const location = useNavigate().location;
-  const { player1, player2 } = location.state || { player1: '', player2: '' };
-
-  return (
-    <div className="game-page">
-      <h2>Game Page</h2>
-      <p>Oyuncu 1: {player1}</p>
-      <p>Oyuncu 2: {player2}</p>
-      {/* Buraya oyun mantığını ekleyebilirsiniz */}
-    </div>
-  );
-}
-
-function Lise({ setIsLiseSelected }) {
-  const navigate = useNavigate();
-
-  const handleBackClick = () => {
-    setIsLiseSelected(false);
-    navigate('/sinif'); // Kategorilere geri döner
-  };
-
-  return (
-    <div className='lise-page'>
-      <div className="menu">
-        <Link to="/sinif/lise/9" className="menu-button">9. Sınıf</Link>
-        <Link to="/sinif/lise/10" className="menu-button">10. Sınıf</Link>
-        <Link to="/sinif/lise/11" className="menu-button">11. Sınıf</Link>
-        <Link to="/sinif/lise/12" className="menu-button">12. Sınıf</Link>
-      </div>
-      <div>
-        <button onClick={handleBackClick} className="back-button">Geri</button>
-      </div>
-    </div>
-  );
-}
-
-function SinifDetay({ sinif }) {
-  const navigate = useNavigate();
-
-  const courses = [
-    { name: "Tarih", path: "/sinif/lise/tarih" },
-    { name: "Coğrafya", path: "/sinif/lise/cografya" },
-    { name: "Fizik", path: "/sinif/lise/fizik" },
-    { name: "Kimya", path: "/sinif/lise/kimya" },
-    { name: "Biyoloji", path: "/sinif/lise/biyoloji" },
-    { name: "Matematik", path: "/sinif/lise/matematik" },
-    { name: "Edebiyat", path: "/sinif/lise/edebiyat" },
-    { name: "Din", path: "/sinif/lise/din" },
-    { name: "İngilizce", path: "/sinif/lise/ingilizce" }
-  ];
-
-  return (
-    <div className="sinif-detay">
-      <h2>{sinif} Dersleri</h2>
-      <div className="courses-grid">
-        {courses.map((course) => (
-          <Link key={course.name} to={`${course.path}/konular`} className="course-button">
-            {course.name}
-          </Link>
-        ))}
-      </div>
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
-    </div>
-  );
-}
-
-function UniteDetay() {
-  const navigate = useNavigate();
-
-  const unites = [
-    { name: "Ünite 1", path: "/sinif/lise/tarih/ünite1" },
-    { name: "Ünite 2", path: "/sinif/lise/tarih/ünite2" },
-    { name: "Ünite 3", path: "/sinif/lise/tarih/ünite3" },
-    { name: "Ünite 4", path: "/sinif/lise/tarih/ünite4" },
-    { name: "Ünite 5", path: "/sinif/lise/tarih/ünite5" },
-    { name: "Ünite 6", path: "/sinif/lise/tarih/ünite6" },
-    { name: "Ünite 7", path: "/sinif/lise/tarih/ünite7" },
-    { name: "Ünite 8", path: "/sinif/lise/tarih/ünite8" },
-    { name: "Ünite 9", path: "/sinif/lise/tarih/ünite9" }
-  ];
-
-  return (
-    <div className="unite-detay">
-      <h2>Üniteler</h2>
-      <div className="courses-grid">
-        {unites.map((unite) => (
-          <Link key={unite.name} to={`${unite.path}/konular`} className="course-button">
-            {unite.name}
-          </Link>
-        ))}
-      </div>
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
-    </div>
-  );
-}
-
-function KonuDetay() {
-  const navigate = useNavigate();
-
-  const topics = [
-    { name: "Konu 1", path: "/sinif/lise/tarih/ünite1/konular/konu1" },
-    { name: "Konu 2", path: "/sinif/lise/tarih/ünite2/konular/konu2" },
-    { name: "Konu 3", path: "/sinif/lise/tarih/ünite3/konular/konu3" },
-    { name: "Konu 4", path: "/sinif/lise/tarih/ünite4/konular/konu4" }
-  ];
-
-  return (
-    <div className="konu-detay">
-      <h2>Konular</h2>
-      <div className="courses-grid">
-        {topics.map((topic) => (
-          <Link key={topic.name} to={`${topic.path}/registration`} className="course-button">
-            {topic.name}
-          </Link>
-        ))}
-      </div>
-      {/* Geri butonu eklendi */}
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
-    </div>
   );
 }
 
