@@ -41,6 +41,7 @@ h2 {
   background-color: rgba(0, 100, 0, 0.5); /* Koyu yeşil ve şeffaf arka plan */
   padding: 20px;
   border-radius: 10px; /* Köşeleri yuvarlamak için */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
 }
 
 
@@ -57,10 +58,13 @@ h2 {
   cursor: pointer;
   font-family: 'Arial', sans-serif;
   text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Gölge biraz arttırıldı */
+  
 }
 
 .menu-button:hover {
-  background-color: #579ddf;
+  background-color: #208be1;
+  color:#ffffff ;
 }
 
 .sinif-detay {
@@ -97,11 +101,14 @@ h2 {
   font-size: 18px;
   width: 150px;
   text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Gölge biraz arttırıldı */
 }
 
 .course-button:hover {
-  background-color: #45a049;
+  background-color: #3f8349;
   cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
+  color: #ffffff;
 }
 
 .menu {
@@ -120,10 +127,12 @@ h2 {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Gölge biraz arttırıldı */
 }
 
 .back-button:hover {
-  background-color: #d32f2f;
+  background-color: #af2e2e;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
 }
 
 
@@ -142,10 +151,12 @@ h2 {
   cursor: pointer;
   font-family: 'Arial', sans-serif;
   margin-top: 35px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Gölge biraz arttırıldı */
 }
 
 .footer-button:hover {
   background-color: #5a9bd6;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
 }
 
 /* Registration sayfası için genel düzen */
@@ -160,7 +171,8 @@ h2 {
 
 .registration-page .menu {
   position: relative;
-  top: -50;
+  top: -95;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
 }
 
 .registration-page h2 {
@@ -178,6 +190,8 @@ h2 {
   margin-bottom: 20px;
   width: 80%;
   max-width: 400px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
+  
 }
 
 .player-input label {
@@ -206,10 +220,12 @@ h2 {
   cursor: pointer;
   font-family: 'Arial', sans-serif;
   margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Gölge biraz arttırıldı */
 }
 
 .start-button:hover {
   background-color: #5a9bd6;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
 }
 
 /* Mobil uyumlu tasarım için */
