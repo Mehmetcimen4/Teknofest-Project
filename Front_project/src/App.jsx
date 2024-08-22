@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
@@ -11,8 +11,20 @@ import UniteDetay from './pages/UniteDetay';
 import KonuDetay from './pages/KonuDetay';
 
 function App() {
-  const [isClassSelected, setIsClassSelected] = useState(false);
-  const [isLiseSelected, setIsLiseSelected] = useState(false);
+  const [isClassSelected, setIsClassSelected] = useState(() => {
+    return JSON.parse(localStorage.getItem('isClassSelected')) || false;
+  });
+  const [isLiseSelected, setIsLiseSelected] = useState(() => {
+    return JSON.parse(localStorage.getItem('isLiseSelected')) || false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('isClassSelected', JSON.stringify(isClassSelected));
+  }, [isClassSelected]);
+
+  useEffect(() => {
+    localStorage.setItem('isLiseSelected', JSON.stringify(isLiseSelected));
+  }, [isLiseSelected]);
 
   return (
     <Router>

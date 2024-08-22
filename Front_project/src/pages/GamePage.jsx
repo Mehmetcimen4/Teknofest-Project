@@ -5,16 +5,48 @@ import '../Game.css';
 function GamePage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { player1, player2 } = location.state || { player1: 'Oyuncu 1', player2: 'Oyuncu 2' };
 
+  const [player1, setPlayer1] = useState(() => localStorage.getItem('player1') || 'Oyuncu 1');
+  const [player2, setPlayer2] = useState(() => localStorage.getItem('player2') || 'Oyuncu 2');
   const [playerTurn, setPlayerTurn] = useState('left'); // İlk olarak soldaki oyuncunun sırası
   const [player1Time, setPlayer1Time] = useState(60);
   const [player2Time, setPlayer2Time] = useState(60);
-  const [player1Messages, setPlayer1Messages] = useState([]);
-  const [player2Messages, setPlayer2Messages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    // Yeni bir oyuna başladığınızda süreleri ve mesajları sıfırla
+    setPlayer1Time(60);
+    setPlayer2Time(60);
+    setMessages([]);
+    setPlayerTurn('left');
+    localStorage.removeItem('player1Time');
+    localStorage.removeItem('player2Time');
+    localStorage.removeItem('messages');
+  }, [location]);
+
+  useEffect(() => {
+    // Verileri JSON server'dan çekme
+    const fetchPlayers = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/players');
+        const data = await response.json();
+        if (data.length >= 2) {
+          setPlayer1(data[0].name);
+          setPlayer2(data[1].name);
+          localStorage.setItem('player1', data[0].name);
+          localStorage.setItem('player2', data[1].name);
+        }
+      } catch (error) {
+        console.error('Veri çekme hatası:', error);
+      }
+    };
+
+    fetchPlayers();
+  }, []);
+
+  useEffect(() => {
+    // Zamanlayıcıyı başlat
     let timer;
     if (playerTurn === 'left' && player1Time > 0) {
       timer = setInterval(() => {
@@ -29,16 +61,27 @@ function GamePage() {
     return () => clearInterval(timer);
   }, [playerTurn, player1Time, player2Time]);
 
+  useEffect(() => {
+    // Bilgileri localStorage'a kaydet
+    localStorage.setItem('player1Time', player1Time);
+    localStorage.setItem('player2Time', player2Time);
+    localStorage.setItem('playerTurn', playerTurn);
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }, [player1Time, player2Time, playerTurn, messages]);
+
   const handleSendMessage = () => {
     if (message.trim() === '') return;
 
-    if (playerTurn === 'left') {
-      setPlayer1Messages([...player1Messages, message]);
-      setPlayerTurn('right');
-    } else {
-      setPlayer2Messages([...player2Messages, message]);
-      setPlayerTurn('left');
-    }
+    const newMessage = {
+      sender: playerTurn === 'left' ? player1 : player2,
+      text: message,
+      side: playerTurn === 'left' ? 'left' : 'right',
+    };
+
+    setMessages([...messages, newMessage]);
+
+    // Sıra değişikliği
+    setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
 
     setMessage(''); // Mesaj alanını temizle
   };
@@ -56,14 +99,12 @@ function GamePage() {
         </div>
       </div>
       <div className="chat-box">
-        {player1Messages.map((msg, index) => (
-          <div key={index} className="message left-message">
-            {msg}
-          </div>
-        ))}
-        {player2Messages.map((msg, index) => (
-          <div key={index} className="message right-message">
-            {msg}
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`message ${msg.side}-message`}
+          >
+            <strong>{msg.sender}: </strong>{msg.text}
           </div>
         ))}
       </div>
