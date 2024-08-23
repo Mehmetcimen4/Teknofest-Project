@@ -9,12 +9,19 @@ function GamePage() {
   const [player1, setPlayer1] = useState(() => localStorage.getItem('player1') || 'Oyuncu 1');
   const [player2, setPlayer2] = useState(() => localStorage.getItem('player2') || 'Oyuncu 2');
   const [playerTurn, setPlayerTurn] = useState('left'); // İlk olarak soldaki oyuncunun sırası
-  const [player1Time, setPlayer1Time] = useState(60);
-  const [player2Time, setPlayer2Time] = useState(60);
-  const [messages, setMessages] = useState([]);
+  const [player1Time, setPlayer1Time] = useState(() => parseInt(localStorage.getItem('player1Time')) || 60);
+  const [player2Time, setPlayer2Time] = useState(() => parseInt(localStorage.getItem('player2Time')) || 60);
+  const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem('messages')) || []);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    // Oyuncu isimlerini her oyuna girişte en güncel haliyle localStorage'dan çek
+    const latestPlayer1 = localStorage.getItem('player1');
+    const latestPlayer2 = localStorage.getItem('player2');
+
+    if (latestPlayer1) setPlayer1(latestPlayer1);
+    if (latestPlayer2) setPlayer2(latestPlayer2);
+
     // Yeni bir oyuna başladığınızda süreleri ve mesajları sıfırla
     setPlayer1Time(60);
     setPlayer2Time(60);
@@ -24,26 +31,6 @@ function GamePage() {
     localStorage.removeItem('player2Time');
     localStorage.removeItem('messages');
   }, [location]);
-
-  useEffect(() => {
-    // Verileri JSON server'dan çekme
-    const fetchPlayers = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/players');
-        const data = await response.json();
-        if (data.length >= 2) {
-          setPlayer1(data[0].name);
-          setPlayer2(data[1].name);
-          localStorage.setItem('player1', data[0].name);
-          localStorage.setItem('player2', data[1].name);
-        }
-      } catch (error) {
-        console.error('Veri çekme hatası:', error);
-      }
-    };
-
-    fetchPlayers();
-  }, []);
 
   useEffect(() => {
     // Zamanlayıcıyı başlat
@@ -69,7 +56,8 @@ function GamePage() {
     localStorage.setItem('messages', JSON.stringify(messages));
   }, [player1Time, player2Time, playerTurn, messages]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e) => {
+    e.preventDefault(); // Sayfa yenilemesini engelle
     if (message.trim() === '') return;
 
     const newMessage = {
@@ -108,17 +96,17 @@ function GamePage() {
           </div>
         ))}
       </div>
-      <div className="input-area">
+      <form onSubmit={handleSendMessage} className="input-area">
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={(playerTurn === 'left' && player2Time <= 0) || (playerTurn === 'right' && player1Time <= 0)}
         />
-        <button onClick={handleSendMessage} disabled={message.trim() === ''}>
+        <button type="submit" disabled={message.trim() === ''}>
           Gönder
         </button>
-      </div>
+      </form>
       <button onClick={() => navigate(-1)} className="back-button">Geri</button>
     </div>
   );

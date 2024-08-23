@@ -35,11 +35,7 @@ h2 {
   align-items: center;
   background-color: rgba(0, 100, 0, 0.5); /* Koyu yeşil ve şeffaf arka plan */
   padding: 20px;
-<<<<<<< HEAD
   border-radius: 10px; /* Köşeleri yuvarlamak için */
-=======
-  border-radius: 10px;
->>>>>>> e20a45cc509d6e793e08cbb02b4eed3c7dc86045
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
 }
 
@@ -57,20 +53,11 @@ h2 {
   font-family: 'Arial', sans-serif;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Gölge biraz arttırıldı */
-<<<<<<< HEAD
-  
-}
-
-.menu-button:hover {
-  background-color: #208be1;
-  color:#ffffff ;
-=======
 }
 
 .menu-button:hover {
   background-color: #579ddf;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
->>>>>>> e20a45cc509d6e793e08cbb02b4eed3c7dc86045
 }
 
 .sinif-detay,
@@ -105,10 +92,7 @@ h2 {
   background-color: #3f8349;
   cursor: pointer;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
-<<<<<<< HEAD
   color: #ffffff;
-=======
->>>>>>> e20a45cc509d6e793e08cbb02b4eed3c7dc86045
 }
 
 .menu {
@@ -131,11 +115,7 @@ h2 {
 }
 
 .back-button:hover {
-<<<<<<< HEAD
-  background-color: #af2e2e;
-=======
   background-color: #d32f2f;
->>>>>>> e20a45cc509d6e793e08cbb02b4eed3c7dc86045
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
 }
 
@@ -174,11 +154,7 @@ h2 {
 
 .registration-page .menu {
   position: relative;
-<<<<<<< HEAD
-  top: -95;
-=======
   top: -50px;
->>>>>>> e20a45cc509d6e793e08cbb02b4eed3c7dc86045
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
 }
 
@@ -198,10 +174,6 @@ h2 {
   width: 80%;
   max-width: 400px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
-<<<<<<< HEAD
-  
-=======
->>>>>>> e20a45cc509d6e793e08cbb02b4eed3c7dc86045
 }
 
 .player-input label {

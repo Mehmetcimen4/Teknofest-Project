@@ -1,43 +1,34 @@
 {
   "players": [
+   
     {
-      "id": "1",
+      "id": 1,
+      "name": "sdasd",
+      "time": 60
+    },
+    {
+      "id": 2,
       "name": "dsd",
       "time": 60
     },
     {
-      "id": "2",
-      "name": "dsds",
-      "time": 60
-    },
-    {
-      "id": "1",
-      "name": "d",
-      "time": 60
-    },
-    {
-      "id": "2",
-      "name": "a",
-      "time": 60
-    },
-    {
       "id": 1,
-      "name": "fdfds",
+      "name": "dassdas",
       "time": 60
     },
     {
       "id": 2,
-      "name": "fdfsd",
+      "name": "dasdad",
       "time": 60
     },
     {
       "id": 1,
-      "name": "fdfsd",
+      "name": "fsaf",
       "time": 60
     },
     {
       "id": 2,
-      "name": "fddsf",
+      "name": "dasd",
       "time": 60
     }
   ]
