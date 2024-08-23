@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import '../src/App.css';
 
 // Bileşenleri import edin
 import GamePage from './pages/GamePage';
@@ -32,33 +32,52 @@ function App() {
         <header className="app-header">
           <h1 className="title">TUNGA</h1>
         </header>
-        {!isClassSelected && (
-          <>
-            <div className="menu">
-              <Link to="/sinif" className="menu-button" onClick={() => setIsClassSelected(true)}>Sınıf</Link>
-              <Link to="/tek-kisilik" className="menu-button">Tek Kişilik</Link>
-              <Link to="/online" className="menu-button">Online</Link>
-            </div>
-            <div>
-              <button className="footer-button">Nasıl Oynanır?</button>
-            </div>
-          </>
-        )}
-        {isClassSelected && !isLiseSelected && (
-          <>
-            <div className="menu">
-              <Link to="/sinif/ilkokul" className="menu-button">İlkokul</Link>
-              <Link to="/sinif/ortaokul" className="menu-button">Ortaokul</Link>
-              <Link to="/sinif/lise" className="menu-button" onClick={() => setIsLiseSelected(true)}>Lise</Link>
-            </div>
-            <div>
-              <button onClick={() => setIsClassSelected(false)} className="back-button">Geri</button>
-            </div>
-          </>
-        )}
-        {isLiseSelected && (
-          <div className="content">
-            <Routes>
+        <Routes>
+          {/* Ana menü */}
+          <Route 
+            path="/" 
+            element={
+              !isClassSelected ? (
+                <>
+                  <div className="menu">
+                    <Link to="/sinif" className="menu-button" onClick={() => setIsClassSelected(true)}>Sınıf</Link>
+                    <Link to="/tek-kisilik" className="menu-button">Tek Kişilik</Link>
+                    <Link to="/online" className="menu-button">Online</Link>
+                  </div>
+                  <div>
+                    <button className="footer-button">Nasıl Oynanır?</button>
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/sinif" />
+              )
+            } 
+          />
+
+          {/* Sınıf seçimi menüsü */}
+          <Route 
+            path="/sinif" 
+            element={
+              isClassSelected && !isLiseSelected ? (
+                <>
+                  <div className="menu">
+                    <Link to="/sinif/ilkokul" className="menu-button">İlkokul</Link>
+                    <Link to="/sinif/ortaokul" className="menu-button">Ortaokul</Link>
+                    <Link to="/sinif/lise" className="menu-button" onClick={() => setIsLiseSelected(true)}>Lise</Link>
+                  </div>
+                  <div>
+                    <button onClick={() => setIsClassSelected(false)} className="back-button">Geri</button>
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/" />
+              )
+            } 
+          />
+
+          {/* Lise detayları ve diğer sayfalar */}
+          {isLiseSelected && (
+            <>
               <Route path="/sinif/lise" element={<Lise setIsLiseSelected={setIsLiseSelected} />} />
               <Route path="/sinif/lise/9" element={<SinifDetay sinif="9. Sınıf" />} />
               <Route path="/sinif/lise/10" element={<SinifDetay sinif="10. Sınıf" />} />
@@ -68,9 +87,15 @@ function App() {
               <Route path="/sinif/lise/:ders/:unite/konular" element={<KonuDetay />} />
               <Route path="/sinif/lise/:ders/:unite/konular/:konu/registration" element={<Registration />} />
               <Route path="/sinif/lise/:ders/:unite/konular/:konu/game" element={<GamePage />} />
-            </Routes>
-          </div>
-        )}
+            </>
+          )}
+
+          {/* Yönlendirmeler ve varsayılan rota */}
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
+          />
+        </Routes>
       </div>
     </Router>
   );

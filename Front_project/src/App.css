@@ -58,6 +58,7 @@ h2 {
 .menu-button:hover {
   background-color: #579ddf;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Hover durumunda gölge derinleştirildi */
+  color: #ffffff;
 }
 
 .sinif-detay,
@@ -191,6 +192,32 @@ h2 {
   font-family: 'Arial', sans-serif;
 }
 
+/* Zaman seçimi */
+.time-selection {
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge biraz arttırıldı */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-selection label {
+  font-size: 1.2rem;
+  color: #3c3c3c;
+  margin-bottom: 5px;
+}
+
+.time-selection select {
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #4682b4;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+}
+
 /* Oyunu başlat butonu */
 .start-button {
   padding: 10px 20px;
@@ -212,7 +239,7 @@ h2 {
 
 /* Mobil uyumlu tasarım için */
 @media (max-width: 768px) {
-  .player-input {
+  .player-input, .time-selection {
     width: 90%;
   }
   

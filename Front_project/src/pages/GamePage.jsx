@@ -15,20 +15,20 @@ function GamePage() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    // Oyuncu isimlerini her oyuna girişte en güncel haliyle localStorage'dan çek
+    // Oyuncu isimlerini ve sürelerini localStorage'dan güncel olarak çek
     const latestPlayer1 = localStorage.getItem('player1');
     const latestPlayer2 = localStorage.getItem('player2');
+    const latestPlayer1Time = parseInt(localStorage.getItem('player1Time'));
+    const latestPlayer2Time = parseInt(localStorage.getItem('player2Time'));
 
     if (latestPlayer1) setPlayer1(latestPlayer1);
     if (latestPlayer2) setPlayer2(latestPlayer2);
+    if (latestPlayer1Time) setPlayer1Time(latestPlayer1Time);
+    if (latestPlayer2Time) setPlayer2Time(latestPlayer2Time);
 
-    // Yeni bir oyuna başladığınızda süreleri ve mesajları sıfırla
-    setPlayer1Time(60);
-    setPlayer2Time(60);
+    // Yeni bir oyuna başladığınızda mesajları sıfırla
     setMessages([]);
     setPlayerTurn('left');
-    localStorage.removeItem('player1Time');
-    localStorage.removeItem('player2Time');
     localStorage.removeItem('messages');
   }, [location]);
 
