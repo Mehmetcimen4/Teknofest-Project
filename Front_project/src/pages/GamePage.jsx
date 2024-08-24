@@ -8,7 +8,7 @@ function GamePage() {
 
   const [player1, setPlayer1] = useState(() => localStorage.getItem('player1') || 'Oyuncu 1');
   const [player2, setPlayer2] = useState(() => localStorage.getItem('player2') || 'Oyuncu 2');
-  const [playerTurn, setPlayerTurn] = useState('left');
+  const [playerTurn, setPlayerTurn] = useState(() => localStorage.getItem('playerTurn') || 'left');
   const [player1Time, setPlayer1Time] = useState(() => parseInt(localStorage.getItem('player1Time')) || 60);
   const [player2Time, setPlayer2Time] = useState(() => parseInt(localStorage.getItem('player2Time')) || 60);
   const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem('messages')) || []);
@@ -19,14 +19,15 @@ function GamePage() {
     const latestPlayer2 = localStorage.getItem('player2');
     const latestPlayer1Time = parseInt(localStorage.getItem('player1Time'));
     const latestPlayer2Time = parseInt(localStorage.getItem('player2Time'));
+    const latestPlayerTurn = localStorage.getItem('playerTurn');
 
     if (latestPlayer1) setPlayer1(latestPlayer1);
     if (latestPlayer2) setPlayer2(latestPlayer2);
-    if (latestPlayer1Time) setPlayer1Time(latestPlayer1Time);
-    if (latestPlayer2Time) setPlayer2Time(latestPlayer2Time);
+    if (latestPlayer1Time >= 0) setPlayer1Time(latestPlayer1Time);
+    if (latestPlayer2Time >= 0) setPlayer2Time(latestPlayer2Time);
+    if (latestPlayerTurn) setPlayerTurn(latestPlayerTurn);
 
     setMessages(JSON.parse(localStorage.getItem('messages')) || []);
-    setPlayerTurn('left');
   }, [location]);
 
   useEffect(() => {
@@ -45,6 +46,13 @@ function GamePage() {
   }, [playerTurn, player1Time, player2Time]);
 
   useEffect(() => {
+    // Check if time is up and switch turn if needed
+    if (player1Time <= 0 && playerTurn === 'left') {
+      setPlayerTurn('right');
+    } else if (player2Time <= 0 && playerTurn === 'right') {
+      setPlayerTurn('left');
+    }
+
     localStorage.setItem('player1Time', player1Time);
     localStorage.setItem('player2Time', player2Time);
     localStorage.setItem('playerTurn', playerTurn);
@@ -65,7 +73,10 @@ function GamePage() {
     setMessages(updatedMessages);
     localStorage.setItem('messages', JSON.stringify(updatedMessages));
 
-    setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
+    // Switch turn only if the current player has time left
+    if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
+      setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
+    }
     setMessage('');
   };
 
@@ -76,6 +87,12 @@ function GamePage() {
     localStorage.removeItem('messages');
     localStorage.removeItem('playerTurn');
     navigate(-1);
+  };
+
+  const isSendDisabled = () => {
+    if (playerTurn === 'left' && player1Time <= 0) return true;
+    if (playerTurn === 'right' && player2Time <= 0) return true;
+    return false;
   };
 
   return (
@@ -105,9 +122,9 @@ function GamePage() {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          disabled={(playerTurn === 'left' && player2Time <= 0) || (playerTurn === 'right' && player1Time <= 0)}
+          disabled={isSendDisabled()}
         />
-        <button type="submit" disabled={message.trim() === ''}>
+        <button type="submit" disabled={message.trim() === '' || isSendDisabled()}>
           Gönder
         </button>
       </form>
