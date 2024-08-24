@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Lise({ setIsLiseSelected }) {
+function Lise() {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    setIsLiseSelected(false);
-    navigate('/sinif');
+    navigate('/sinif');  // Sınıf sayfasına yönlendir
   };
 
   return (
