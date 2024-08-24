@@ -8,14 +8,13 @@ function GamePage() {
 
   const [player1, setPlayer1] = useState(() => localStorage.getItem('player1') || 'Oyuncu 1');
   const [player2, setPlayer2] = useState(() => localStorage.getItem('player2') || 'Oyuncu 2');
-  const [playerTurn, setPlayerTurn] = useState('left'); // İlk olarak soldaki oyuncunun sırası
+  const [playerTurn, setPlayerTurn] = useState('left');
   const [player1Time, setPlayer1Time] = useState(() => parseInt(localStorage.getItem('player1Time')) || 60);
   const [player2Time, setPlayer2Time] = useState(() => parseInt(localStorage.getItem('player2Time')) || 60);
   const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem('messages')) || []);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    // Oyuncu isimlerini ve sürelerini localStorage'dan güncel olarak çek
     const latestPlayer1 = localStorage.getItem('player1');
     const latestPlayer2 = localStorage.getItem('player2');
     const latestPlayer1Time = parseInt(localStorage.getItem('player1Time'));
@@ -26,14 +25,11 @@ function GamePage() {
     if (latestPlayer1Time) setPlayer1Time(latestPlayer1Time);
     if (latestPlayer2Time) setPlayer2Time(latestPlayer2Time);
 
-    // Yeni bir oyuna başladığınızda mesajları sıfırla
-    setMessages([]);
+    setMessages(JSON.parse(localStorage.getItem('messages')) || []);
     setPlayerTurn('left');
-    localStorage.removeItem('messages');
   }, [location]);
 
   useEffect(() => {
-    // Zamanlayıcıyı başlat
     let timer;
     if (playerTurn === 'left' && player1Time > 0) {
       timer = setInterval(() => {
@@ -49,7 +45,6 @@ function GamePage() {
   }, [playerTurn, player1Time, player2Time]);
 
   useEffect(() => {
-    // Bilgileri localStorage'a kaydet
     localStorage.setItem('player1Time', player1Time);
     localStorage.setItem('player2Time', player2Time);
     localStorage.setItem('playerTurn', playerTurn);
@@ -57,7 +52,7 @@ function GamePage() {
   }, [player1Time, player2Time, playerTurn, messages]);
 
   const handleSendMessage = (e) => {
-    e.preventDefault(); // Sayfa yenilemesini engelle
+    e.preventDefault();
     if (message.trim() === '') return;
 
     const newMessage = {
@@ -66,12 +61,21 @@ function GamePage() {
       side: playerTurn === 'left' ? 'left' : 'right',
     };
 
-    setMessages([...messages, newMessage]);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+    localStorage.setItem('messages', JSON.stringify(updatedMessages));
 
-    // Sıra değişikliği
     setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
+    setMessage('');
+  };
 
-    setMessage(''); // Mesaj alanını temizle
+  const handleBackButton = () => {
+    // Sıfırla
+    localStorage.removeItem('player1Time');
+    localStorage.removeItem('player2Time');
+    localStorage.removeItem('messages');
+    localStorage.removeItem('playerTurn');
+    navigate(-1);
   };
 
   return (
@@ -107,7 +111,7 @@ function GamePage() {
           Gönder
         </button>
       </form>
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
+      <button onClick={handleBackButton} className="back-button">Geri</button>
     </div>
   );
 }

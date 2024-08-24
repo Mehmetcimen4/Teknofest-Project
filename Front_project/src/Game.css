@@ -3,19 +3,19 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  width: 90vw;
-  
+  height: 90vh; /* Adjusted to make the page sit higher */
+  width: 95vw; /* Shift the entire game page upwards */
   padding: 10px;
   background-color: #2C9A65;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .top-bar {
   display: flex;
   justify-content: space-between;
-  width: 75%;
+  width: 80%;
   margin-bottom: 20px;
 }
 
@@ -23,7 +23,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
   color: #ffffff;
 }
 
@@ -38,12 +37,12 @@
   flex-direction: column;
   width: 100%;
   max-width: 1000px;
-  height: 60vh;
+  height: 50vh;
   background-color: #ffffff;
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+  overflow-y: auto; /* Re-enable vertical scroll for messages */
 }
 
 .message {
@@ -52,16 +51,19 @@
   border-radius: 12px;
   font-size: 16px;
   line-height: 1.4;
+  word-wrap: break-word; /* Text wraps within the message bubble */
 }
 
 .left-message {
   align-self: flex-start;
-  background-color: #39D49C;
+  background-color: #39D49C; /* Light green */
+  color: #ffffff;
 }
 
 .right-message {
   align-self: flex-end;
-  background-color: #39D49C;
+  background-color: #00796b; /* Dark turquoise */
+  color: #ffffff;
 }
 
 .input-area {
@@ -83,9 +85,9 @@ input[type='text'] {
 button {
   padding: 12px;
   font-size: 16px;
-  background-color: #00796b; /* Belirgin turkuaz */
-  color: #9fc681; /* Beyaz metin */
-  border: 2px solid transparent; /* Kenarlık rengi başlangıçta şeffaf */
+  background-color: #00796b; /* Dark turquoise */
+  color: #ffffff; /* White text */
+  border: 2px solid transparent;
   border-radius: 8px;
   margin-left: 10px;
   cursor: pointer;
@@ -93,29 +95,26 @@ button {
 }
 
 button:hover {
-  background-color: #11806e; /* Daha koyu turkuaz */
+  background-color: #11806e; /* Slightly darker turquoise */
 }
 
 button:focus {
-  outline: none; /* Varsayılan odak çerçevesini kaldırıyoruz */
-  border-color: #2ecc71; /* Yeşil kenarlık odaklanıldığında */
+  outline: none;
+  border-color: #2ecc71; /* Green border on focus */
 }
 
 button:active {
-  background-color: #086c5c; /* Daha koyu turkuaz */
+  background-color: #086c5c; /* Even darker turquoise */
 }
 
 button:disabled {
-  background-color: #b0bec5; /* Gri tonunda */
-  color: #757575; /* Gri metin */
-  cursor: not-allowed; /* Tıklanamaz imleç */
+  background-color: #b0bec5; /* Grey */
+  color: #757575; /* Grey text */
+  cursor: not-allowed;
 }
 
 .back-button {
-  margin-top: 20px;
-  background-color: #d32f2f; /* Koyu kırmızı */
-  color: #ffffff; /* Beyaz metin */
+  margin-top: 10px;
+  background-color: #d32f2f; /* Dark red */
+  color: #ffffff; /* White text */
 }
-
-
-
