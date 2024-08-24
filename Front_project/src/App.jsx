@@ -63,7 +63,7 @@ function App() {
                   <div className="menu">
                     <Link to="/sinif/ilkokul" className="menu-button">İlkokul</Link>
                     <Link to="/sinif/ortaokul" className="menu-button">Ortaokul</Link>
-                    <Link to="/sinif/lise" className="menu-button" onClick={() => setIsLiseSelected(true)}>Lise</Link>
+                     <Link to="/sinif/lise" className="menu-button" onClick={() => setIsLiseSelected(true)}>Lise</Link>
                   </div>
                   <div>
                     <button onClick={() => setIsClassSelected(false)} className="back-button">Geri</button>
