@@ -5,15 +5,15 @@ function SinifDetay({ sinif }) {
   const navigate = useNavigate();
 
   const courses = [
-    { name: "Tarih", path: "/sinif/lise/tarih" },
-    { name: "Coğrafya", path: "/sinif/lise/cografya" },
-    { name: "Fizik", path: "/sinif/lise/fizik" },
-    { name: "Kimya", path: "/sinif/lise/kimya" },
-    { name: "Biyoloji", path: "/sinif/lise/biyoloji" },
-    { name: "Matematik", path: "/sinif/lise/matematik" },
-    { name: "Edebiyat", path: "/sinif/lise/edebiyat" },
-    { name: "Din", path: "/sinif/lise/din" },
-    { name: "İngilizce", path: "/sinif/lise/ingilizce" }
+    { name: "Tarih", path: "/sinif/lise/9/tarih" },
+    { name: "Coğrafya", path: "/sinif/lise/9/cografya" },
+    { name: "Fizik", path: "/sinif/lise/9/fizik" },
+    { name: "Kimya", path: "/sinif/lise/9/kimya" },
+    { name: "Biyoloji", path: "/sinif/lise/9/biyoloji" },
+    { name: "Matematik", path: "/sinif/lise/9/matematik" },
+    { name: "Edebiyat", path: "/sinif/lise/9/edebiyat" },
+    { name: "Din", path: "/sinif/lise/9/din" },
+    { name: "İngilizce", path: "/sinif/lise/9/ingilizce" }
   ];
 
   return (
@@ -21,7 +21,7 @@ function SinifDetay({ sinif }) {
       <h2>{sinif} Dersleri</h2>
       <div className="courses-grid">
         {courses.map((course) => (
-          <Link key={course.name} to={`${course.path}/konular`} className="course-button">
+          <Link key={course.name} to={`${course.path}`} className="course-button">
             {course.name}
           </Link>
         ))}

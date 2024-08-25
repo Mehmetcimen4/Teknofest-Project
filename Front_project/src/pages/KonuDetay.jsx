@@ -5,10 +5,10 @@ function KonuDetay() {
   const navigate = useNavigate();
 
   const topics = [
-    { name: "Konu 1", path: "/sinif/lise/tarih/ünite1/konular/konu1" },
-    { name: "Konu 2", path: "/sinif/lise/tarih/ünite2/konular/konu2" },
-    { name: "Konu 3", path: "/sinif/lise/tarih/ünite3/konular/konu3" },
-    { name: "Konu 4", path: "/sinif/lise/tarih/ünite4/konular/konu4" }
+    { name: "Konu 1", path: "/sinif/lise/9/tarih/ünite1/konu1" },
+    { name: "Konu 2", path: "/sinif/lise/9/tarih/ünite2/konu2" },
+    { name: "Konu 3", path: "/sinif/lise/9/tarih/ünite3/konu3" },
+    { name: "Konu 4", path: "/sinif/lise/9/tarih/ünite4/konu4" }
   ];
 
   return (

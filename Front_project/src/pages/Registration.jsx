@@ -19,7 +19,7 @@ function Registration() {
         localStorage.setItem('player2Time', time); // Oyuncu 2 için süre
 
         // Oyuna yönlendirme
-        navigate('/sinif/lise/tarih/ünite1/konular/konu1/game');
+        navigate('/sinif/lise/9/tarih/ünite1/konu1/game');
         
       } catch (error) {
         console.error('Oyunu başlatırken bir hata oluştu:', error);

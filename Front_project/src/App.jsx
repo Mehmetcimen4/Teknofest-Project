@@ -42,13 +42,13 @@ function App() {
           {/* Lise detayları ve diğer sayfalar */}
           <Route path="/sinif/lise" element={<Lise />} />
           <Route path="/sinif/lise/9" element={<SinifDetay sinif="9. Sınıf" />} />
-          <Route path="/sinif/lise/10" element={<SinifDetay sinif="10. Sınıf" />} />
-          <Route path="/sinif/lise/11" element={<SinifDetay sinif="11. Sınıf" />} />
-          <Route path="/sinif/lise/12" element={<SinifDetay sinif="12. Sınıf" />} />
-          <Route path="/sinif/lise/:ders/konular" element={<UniteDetay />} />
-          <Route path="/sinif/lise/:ders/:unite/konular" element={<KonuDetay />} />
-          <Route path="/sinif/lise/:ders/:unite/konular/:konu/registration" element={<Registration />} />
-          <Route path="/sinif/lise/:ders/:unite/konular/:konu/game" element={<GamePage />} />
+          <Route path="/sinif/lise/10" element={<Lise />} />
+          <Route path="/sinif/lise/11" element={<Lise />} />
+          <Route path="/sinif/lise/12" element={<Lise />} />
+          <Route path="/sinif/lise/9/:ders" element={<UniteDetay />} />
+          <Route path="/sinif/lise/9/:ders/:unite" element={<KonuDetay />} />
+          <Route path="/sinif/lise/9/:ders/:unite/:konu/registration" element={<Registration />} />
+          <Route path="/sinif/lise/9/:ders/:unite/:konu/game" element={<GamePage />} />
 
           {/* Yönlendirmeler ve varsayılan rota */}
           <Route path="*" element={<Navigate to="/" replace />} />
