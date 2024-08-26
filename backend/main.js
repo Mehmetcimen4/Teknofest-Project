@@ -22,7 +22,7 @@ let target;
 
 async function loadJsonData() {
     try {
-      const data = await fs.readFile(path.join(__dirname, 'dataset.json'));
+      const data = await fs.readFile(path.join(__dirname, 'word.json'));
       info = JSON.parse(data); // JSON verisini parse edip jsonData'ya atıyoruz
       return info;
     } catch (err) {
