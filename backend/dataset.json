@@ -1,0 +1,23 @@
+[
+    {
+        "name" : "Mustafa Kemal Atatürk",
+        "description": "Mustafa Kemal Atatürk, Türkiye Cumhuriyeti'nin kurucusu ve ilk Cumhurbaşkanıdır; modern Türkiye'nin temellerini atmış ve ülkenin sosyal, kültürel ve ekonomik alanlarda köklü reformlar"
+    },
+    {
+        "name" : "Fatih Sultan Mehmet",
+        "description" : "Fatih Sultan Mehmet, 15. yüzyılda Osmanlı İmparatorluğu'nun yedinci padişahı olarak bilinir ve 1453'te İstanbul'u fethederek Bizans İmparatorluğu'na son vermiştir. Stratejik zekâsı ve askeri başarısıyla tanınan Fatih, 'Fatih' unvanını da bu zaferden almıştır."
+    },
+    {
+        "name" : "Yavuz SUltan Selim",
+        "description" : "Yavuz Sultan Selim (1470-1520), Osmanlı İmparatorluğu'nun yedinci padişahıdır ve 1512-1520 yılları arasında hüküm sürmüştür. Genellikle 'Yavuz' unvanı, onun sert ve disiplinli yönetim tarzını yansıtır. Sultan Selim, Osmanlı topraklarını önemli ölçüde genişletmiş ve özellikle Mısır Seferi ile Memlük Sultanlığı'nı fethederek kutsal toprakları Osmanlı egemenliği altına almıştır. Aynı zamanda, Osmanlı devletini merkeziyetçi bir şekilde yeniden düzenlemiş ve bürokrasiyi güçlendirmiştir. Yavuz Sultan Selim, askeri dehası ve stratejik vizyonu ile tanınmış ve Osmanlı İmparatorluğu'nun sınırlarını önemli ölçüde genişletmiştir."
+    },
+    {
+        "name" : "İsmet İnönü",
+        "description" : "İsmet İnönü (1884-1973), Türk asker ve siyasetçidir ve Türkiye Cumhuriyeti'nin ikinci Cumhurbaşkanı olarak tanınır. Türk Kurtuluş Savaşı'nda önemli bir rol oynamış, özellikle Sakarya Meydan Muharebesi ve Dumlupınar Meydan Muharebesi'nde başarı göstermiştir. Savaşın ardından Türkiye Cumhuriyeti'nin kurucusu Mustafa Kemal Atatürk'ün en yakın arkadaşlarından biri olmuş ve Atatürk'ün ölümünden sonra Cumhurbaşkanı olarak görev yapmıştır. İnönü, Türkiye'nin ilk çok partili seçim döneminde ana muhalefet lideri olarak da önemli bir rol oynamış, ülkenin modernleşme sürecine ve siyasi hayatına önemli katkılarda bulunmuştur."
+    },
+    {
+        "name" : "Alparslan",
+        "description" : "Alparslan (1029-1072), Selçuklu Devleti'nin ikinci sultanıdır ve 1063-1072 yılları arasında hüküm sürmüştür. Büyük Selçuklu Devleti'nin sınırlarını önemli ölçüde genişleten Alparslan, en bilinen başarısını 1071 yılında Bizans İmparatorluğu'na karşı kazandığı Malazgirt Meydan Muharebesi ile elde etmiştir. Bu zafer, Anadolu'nun kapılarını Türklere açmış ve bölgedeki Bizans egemenliğini sona erdirmiştir. Alparslan, askeri strateji ve diplomasi konusundaki yetenekleriyle tanınır ve Selçuklu Devleti'nin güçlü bir devlet haline gelmesinde önemli bir rol oynamıştır."
+    }
+    
+]

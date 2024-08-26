@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../Game.css';
+
 
 function GamePage() {
   const location = useLocation();
@@ -15,7 +17,7 @@ function GamePage() {
   const [message, setMessage] = useState('');
   const [player1Score, setPlayer1Score] = useState(() => parseInt(localStorage.getItem('player1Score')) || 0);
   const [player2Score, setPlayer2Score] = useState(() => parseInt(localStorage.getItem('player2Score')) || 0);
-
+  const [aiAnswer, setaiAnswer] = useState("AI Answer");
   // Sıfırla ve oyunu başlat
   useEffect(() => {
     localStorage.setItem('player1Time', player1Time);
@@ -54,10 +56,18 @@ function GamePage() {
     localStorage.setItem('messages', JSON.stringify(messages));
   }, [player1Time, player2Time, playerTurn, messages]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message.trim() === '') return;
-
+    try {
+      console.log(message);
+      const response = await axios.post("http://localhost:5000/getResponse",  { message });
+      
+      
+      setaiAnswer(response.data.assistantMessage);
+    } catch (err) {
+      console.error("Hata oluştu:", err.message);
+    }
     const newMessage = {
       sender: playerTurn === 'left' ? player1 : player2,
       text: message,
@@ -143,6 +153,9 @@ function GamePage() {
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.side}-message`}>
             <strong>{msg.sender}: </strong>{msg.text}
+
+            <div>{aiAnswer}</div>
+
           </div>
         ))}
       </div>
