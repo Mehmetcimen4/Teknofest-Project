@@ -14,21 +14,13 @@ function GamePage() {
   const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem('messages')) || []);
   const [message, setMessage] = useState('');
 
+  // Sıfırla ve oyunu başlat
   useEffect(() => {
-    const latestPlayer1 = localStorage.getItem('player1');
-    const latestPlayer2 = localStorage.getItem('player2');
-    const latestPlayer1Time = parseInt(localStorage.getItem('player1Time'));
-    const latestPlayer2Time = parseInt(localStorage.getItem('player2Time'));
-    const latestPlayerTurn = localStorage.getItem('playerTurn');
-
-    if (latestPlayer1) setPlayer1(latestPlayer1);
-    if (latestPlayer2) setPlayer2(latestPlayer2);
-    if (latestPlayer1Time >= 0) setPlayer1Time(latestPlayer1Time);
-    if (latestPlayer2Time >= 0) setPlayer2Time(latestPlayer2Time);
-    if (latestPlayerTurn) setPlayerTurn(latestPlayerTurn);
-
-    setMessages(JSON.parse(localStorage.getItem('messages')) || []);
-  }, [location]);
+    localStorage.setItem('player1Time', player1Time);
+    localStorage.setItem('player2Time', player2Time);
+    localStorage.setItem('playerTurn', 'left');
+    localStorage.setItem('messages', JSON.stringify([]));
+  }, []);
 
   useEffect(() => {
     let timer;
@@ -46,7 +38,6 @@ function GamePage() {
   }, [playerTurn, player1Time, player2Time]);
 
   useEffect(() => {
-    // Check if time is up and switch turn if needed
     if (player1Time <= 0 && playerTurn === 'left') {
       setPlayerTurn('right');
     } else if (player2Time <= 0 && playerTurn === 'right') {
@@ -73,7 +64,6 @@ function GamePage() {
     setMessages(updatedMessages);
     localStorage.setItem('messages', JSON.stringify(updatedMessages));
 
-    // Switch turn only if the current player has time left
     if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
       setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
     }
@@ -81,12 +71,21 @@ function GamePage() {
   };
 
   const handleBackButton = () => {
-    // Sıfırla
     localStorage.removeItem('player1Time');
     localStorage.removeItem('player2Time');
     localStorage.removeItem('messages');
     localStorage.removeItem('playerTurn');
     navigate(-1);
+  };
+
+  const handleSurrender = (side) => {
+    if (side === 'left') {
+      setPlayer1Time(0);
+      setPlayerTurn('right');
+    } else if (side === 'right') {
+      setPlayer2Time(0);
+      setPlayerTurn('left');
+    }
   };
 
   const isSendDisabled = () => {
@@ -101,10 +100,12 @@ function GamePage() {
         <div className="player-info">
           <h3>{player1}</h3>
           <div className="timer">{player1Time}s</div>
+          <button onClick={() => handleSurrender('left')} disabled={player1Time <= 0}>Pes Et</button>
         </div>
         <div className="player-info">
           <h3>{player2}</h3>
           <div className="timer">{player2Time}s</div>
+          <button onClick={() => handleSurrender('right')} disabled={player2Time <= 0}>Pes Et</button>
         </div>
       </div>
       <div className="chat-box">
@@ -128,7 +129,10 @@ function GamePage() {
           Gönder
         </button>
       </form>
-      <button onClick={handleBackButton} className="back-button">Geri</button>
+      <div className="navigation-buttons">
+        <button onClick={handleBackButton} className="back-button">Geri</button>
+        <button onClick={() => navigate('/')} className="home-button">Ana Sayfa</button>
+      </div>
     </div>
   );
 }

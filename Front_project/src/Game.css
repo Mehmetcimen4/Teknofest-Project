@@ -1,20 +1,17 @@
 /* General Game Page Layout */
-/* General Game Page Layout */
 .game-page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 70vh; /* Increased height to make the page sit slightly higher */
+  height: 70vh;
   width: 85vw;
-  padding: 5px; /* Reduced padding to push the content upwards */
+  padding: 5px;
   background-color: #2C9A65;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  
 }
-
 
 /* Top Bar */
 .top-bar {
@@ -48,7 +45,7 @@
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; /* Re-enable vertical scroll for messages */
+  overflow-y: auto;
 }
 
 .message {
@@ -57,18 +54,18 @@
   border-radius: 12px;
   font-size: 16px;
   line-height: 1.4;
-  word-wrap: break-word; /* Text wraps within the message bubble */
+  word-wrap: break-word;
 }
 
 .left-message {
   align-self: flex-start;
-  background-color: #39D49C; /* Light green */
+  background-color: #39D49C;
   color: #ffffff;
 }
 
 .right-message {
   align-self: flex-end;
-  background-color: #00796b; /* Dark turquoise */
+  background-color: #00796b;
   color: #ffffff;
 }
 
@@ -85,7 +82,7 @@ input[type='text'] {
   padding: 12px;
   font-size: 16px;
   border-radius: 8px;
-  border: 2px solid #4682b4; /* Consistent with App.css input styling */
+  border: 2px solid #4682b4;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -93,8 +90,8 @@ input[type='text'] {
 button {
   padding: 12px;
   font-size: 16px;
-  background-color: #00796b; /* Dark turquoise */
-  color: #ffffff; /* White text */
+  background-color: #00796b;
+  color: #ffffff;
   border: 2px solid transparent;
   border-radius: 8px;
   margin-left: 10px;
@@ -103,30 +100,58 @@ button {
 }
 
 button:hover {
-  background-color: #11806e; /* Slightly darker turquoise */
+  background-color: #11806e;
 }
 
 button:focus {
   outline: none;
-  border-color: #2ecc71; /* Green border on focus */
+  border-color: #2ecc71;
 }
 
 button:active {
-  background-color: #086c5c; /* Even darker turquoise */
+  background-color: #086c5c;
 }
 
 button:disabled {
-  background-color: #b0bec5; /* Grey */
-  color: #757575; /* Grey text */
+  background-color: #b0bec5;
+  color: #757575;
   cursor: not-allowed;
 }
 
-/* Back Button (inherits from App.css) */
-.back-button {
+/* Back Button */
+.back-button, .home-button {
   margin-top: 10px;
   background-color: #d32f2f; /* Dark red */
-  color: #ffffff; /* White text */
+  color: #ffffff;
   border-radius: 5px;
-  padding: 10px 15px; /* Consistent with App.css back-button */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* In line with App.css shadow */
+  padding: 10px 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+}
+
+.home-button {
+  margin-left: 10px;
+}
+
+/* Surrender Button */
+.player-info button {
+  margin-top: 10px;
+  background-color: #d32f2f; /* Dark red */
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 10px 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.player-info button:hover {
+  background-color: #c1272d; /* Slightly darker red */
+}
+
+.player-info button:focus {
+  outline: none;
+  border-color: #e53935; /* Brighter red border on focus */
+}
+
+.player-info button:active {
+  background-color: #b71c1c; /* Even darker red */
 }

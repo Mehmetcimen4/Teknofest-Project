@@ -8,31 +8,37 @@ function Registration() {
   const [time, setTime] = useState(60); // Default to 60 seconds
 
   const handleStartGame = (e) => {
-    e.preventDefault(); // Formun otomatik olarak submit edilmesini engelle
+    e.preventDefault(); // Prevent the form from automatically submitting
 
     if (player1 && player2) {
       try {
-        // Oyuncu isimlerini ve zamanı localStorage'a kaydet
+        // Clear any old game data from localStorage
+        localStorage.removeItem('player1Time');
+        localStorage.removeItem('player2Time');
+        localStorage.removeItem('messages');
+        localStorage.removeItem('playerTurn');
+
+        // Store player names and time in localStorage
         localStorage.setItem('player1', player1);
         localStorage.setItem('player2', player2);
-        localStorage.setItem('player1Time', time); // Oyuncu 1 için süre
-        localStorage.setItem('player2Time', time); // Oyuncu 2 için süre
+        localStorage.setItem('player1Time', time); // Set time for player 1
+        localStorage.setItem('player2Time', time); // Set time for player 2
 
-        // Oyuna yönlendirme
+        // Navigate to the game page
         navigate('/sinif/lise/9/tarih/ünite1/konu1/game');
         
       } catch (error) {
-        console.error('Oyunu başlatırken bir hata oluştu:', error);
-        alert('Oyunu başlatırken bir hata oluştu. Lütfen tekrar deneyin.');
+        console.error('Error starting the game:', error);
+        alert('An error occurred while starting the game. Please try again.');
       }
     } else {
-      alert('Lütfen her iki oyuncunun adını da girin.');
+      alert('Please enter the names of both players.');
     }
   };
 
   return (
     <div className="registration-page">
-      <h2>Oyuncu Kaydı</h2>
+      <h2>Oyuncu Kayıtı</h2>
       <div className='menu'>
         <div className="player-input">
           <label>Oyuncu 1:</label>
@@ -40,7 +46,7 @@ function Registration() {
             type="text" 
             value={player1} 
             onChange={(e) => setPlayer1(e.target.value)} 
-            placeholder="Oyuncu 1 adını girin"
+            placeholder="Oyuncu 1 için isim giriniz"
           />
         </div>
         <div className="player-input">
@@ -49,18 +55,18 @@ function Registration() {
             type="text" 
             value={player2} 
             onChange={(e) => setPlayer2(e.target.value)} 
-            placeholder="Oyuncu 2 adını girin"
+            placeholder="Oyuncu 2 için isim giriniz"
           />
         </div>
         <div className="time-selection">
-          <label>Zaman Seçimi:</label>
+          <label>Zaman seçimi:</label>
           <select value={time} onChange={(e) => setTime(parseInt(e.target.value))}>
             <option value={60}>60 saniye</option>
             <option value={90}>90 saniye</option>
             <option value={120}>120 saniye</option>
           </select>
         </div>
-        <button onClick={handleStartGame} className="start-button">Oyunu Başlat</button>
+        <button onClick={handleStartGame} className="start-button">Oyuna başla</button>
       </div>
 
       <button onClick={() => navigate(-1)} className="back-button">Geri</button>
