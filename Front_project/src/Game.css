@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 72vh;
+  height: 73vh;
   width: 85vw;
   padding: 5px;
   background-color: #2C9A65;
@@ -21,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 80%;
   margin-bottom: 0px;
 }
 
@@ -188,14 +188,16 @@
 .chat-box {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 80%;
   max-width: 1200px;
   height: 85vh;
   background-color: #ffffff;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+  overflow-y: auto; /* Scroll bar için auto kullanımı */
+  flex-grow: 1; /* Alanı esnetmek için */
+  min-height: 0; /* İçerik taştığında boyutun küçülmesini engellemek için */
 }
 
 /* Message Bubbles */
@@ -209,21 +211,24 @@
   max-width: 60%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   position: relative;
-  overflow: hidden; /* Fix for content overflow */
+  overflow: hidden; /* İçeriğin taşmasını engellemek için */
+  flex-shrink: 0; /* Mesajların küçülmesini engellemek için */
 }
 
 .left-message {
   align-self: flex-start;
   background-color: #39D49C;
   color: #ffffff;
-  border-bottom-left-radius: 4px; /* Adjusted for visual consistency */
+  border-bottom-left-radius: 4px; /* Görsel tutarlılık için ayarlandı */
+  flex-shrink: 0; /* Mesaj balonunun boyutunu korumak için */
 }
 
 .right-message {
   align-self: flex-end;
   background-color: #00796b;
   color: #ffffff;
-  border-bottom-right-radius: 4px; /* Adjusted for visual consistency */
+  border-bottom-right-radius: 4px; /* Görsel tutarlılık için ayarlandı */
+  flex-shrink: 0; /* Mesaj balonunun boyutunu korumak için */
 }
 
 .message::after {
@@ -250,7 +255,7 @@
 /* Input Area */
 .input-area {
   display: flex;
-  width: 100%;
+  width: 80%;
   max-width: 1200px;
   margin-top: 20px;
 }
