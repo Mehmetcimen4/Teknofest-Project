@@ -13,6 +13,8 @@ function GamePage() {
   const [player2Time, setPlayer2Time] = useState(() => parseInt(localStorage.getItem('player2Time')) || 60);
   const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem('messages')) || []);
   const [message, setMessage] = useState('');
+  const [player1Score, setPlayer1Score] = useState(() => parseInt(localStorage.getItem('player1Score')) || 0);
+  const [player2Score, setPlayer2Score] = useState(() => parseInt(localStorage.getItem('player2Score')) || 0);
 
   // Sıfırla ve oyunu başlat
   useEffect(() => {
@@ -20,6 +22,8 @@ function GamePage() {
     localStorage.setItem('player2Time', player2Time);
     localStorage.setItem('playerTurn', 'left');
     localStorage.setItem('messages', JSON.stringify([]));
+    localStorage.setItem('player1Score', player1Score);
+    localStorage.setItem('player2Score', player2Score);
   }, []);
 
   useEffect(() => {
@@ -64,6 +68,7 @@ function GamePage() {
     setMessages(updatedMessages);
     localStorage.setItem('messages', JSON.stringify(updatedMessages));
 
+    // Update the turn and time
     if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
       setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
     }
@@ -75,6 +80,8 @@ function GamePage() {
     localStorage.removeItem('player2Time');
     localStorage.removeItem('messages');
     localStorage.removeItem('playerTurn');
+    localStorage.removeItem('player1Score');
+    localStorage.removeItem('player2Score');
     navigate(-1);
   };
 
@@ -82,9 +89,19 @@ function GamePage() {
     if (side === 'left') {
       setPlayer1Time(0);
       setPlayerTurn('right');
+      setPlayer2Score((prev) => {
+        const newScore = prev + 1;
+        localStorage.setItem('player2Score', newScore);
+        return newScore;
+      });
     } else if (side === 'right') {
       setPlayer2Time(0);
       setPlayerTurn('left');
+      setPlayer1Score((prev) => {
+        const newScore = prev + 1;
+        localStorage.setItem('player1Score', newScore);
+        return newScore;
+      });
     }
   };
 
@@ -98,26 +115,38 @@ function GamePage() {
     <div className="game-page">
       <div className="top-bar">
         <div className="player-info">
-          <h3>{player1}</h3>
-          <div className="timer">{player1Time}s</div>
-          <button onClick={() => handleSurrender('left')} disabled={player1Time <= 0}>Pes Et</button>
+          <div className="left-player">
+            <div className="timer">{player1Time}s</div>
+            <div className="score">Puan: {player1Score}</div>
+            <h3 className="player-name">{player1}</h3>
+            
+            <button onClick={() => handleSurrender('left')} className="pes-et-button" disabled={player1Time <= 0}>
+              Pes Et
+            </button>
+          </div>
         </div>
+
         <div className="player-info">
-          <h3>{player2}</h3>
-          <div className="timer">{player2Time}s</div>
-          <button onClick={() => handleSurrender('right')} disabled={player2Time <= 0}>Pes Et</button>
+          <div className="right-player">
+            <div className="timer">{player2Time}s</div>
+             <div className="score">Puan: {player2Score}</div>
+            <h3 className="player-name">{player2}</h3>
+           
+            <button onClick={() => handleSurrender('right')} className="pes-et-button" disabled={player2Time <= 0}>
+              Pes Et
+            </button>
+          </div>
         </div>
       </div>
+
       <div className="chat-box">
         {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`message ${msg.side}-message`}
-          >
+          <div key={index} className={`message ${msg.side}-message`}>
             <strong>{msg.sender}: </strong>{msg.text}
           </div>
         ))}
       </div>
+
       <form onSubmit={handleSendMessage} className="input-area">
         <input
           type="text"
@@ -129,9 +158,14 @@ function GamePage() {
           Gönder
         </button>
       </form>
+
       <div className="navigation-buttons">
-        <button onClick={handleBackButton} className="back-button">Geri</button>
-        <button onClick={() => navigate('/')} className="home-button">Ana Sayfa</button>
+        <button onClick={handleBackButton} className="back-button">
+          Geri
+        </button>
+        <button onClick={() => navigate('/')} className="home-button">
+          Ana Sayfa
+        </button>
       </div>
     </div>
   );

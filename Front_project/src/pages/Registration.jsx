@@ -17,12 +17,16 @@ function Registration() {
         localStorage.removeItem('player2Time');
         localStorage.removeItem('messages');
         localStorage.removeItem('playerTurn');
+        localStorage.removeItem('player1Score');
+        localStorage.removeItem('player2Score');
 
-        // Store player names and time in localStorage
+        // Store player names, time, and initial scores in localStorage
         localStorage.setItem('player1', player1);
         localStorage.setItem('player2', player2);
         localStorage.setItem('player1Time', time); // Set time for player 1
         localStorage.setItem('player2Time', time); // Set time for player 2
+        localStorage.setItem('player1Score', 0); // Initial score for player 1
+        localStorage.setItem('player2Score', 0); // Initial score for player 2
 
         // Navigate to the game page
         navigate('/sinif/lise/9/tarih/ünite1/konu1/game');
