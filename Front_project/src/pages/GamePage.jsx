@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Game.css';
 
-
 function GamePage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,26 +16,37 @@ function GamePage() {
   const [message, setMessage] = useState('');
   const [player1Score, setPlayer1Score] = useState(() => parseInt(localStorage.getItem('player1Score')) || 0);
   const [player2Score, setPlayer2Score] = useState(() => parseInt(localStorage.getItem('player2Score')) || 0);
-  const [aiAnswer, setaiAnswer] = useState("AI Answer");
-  // Sıfırla ve oyunu başlat
+
+  // Fetch data from localStorage whenever the component mounts or data changes
   useEffect(() => {
-    localStorage.setItem('player1Time', player1Time);
-    localStorage.setItem('player2Time', player2Time);
-    localStorage.setItem('playerTurn', 'left');
-    localStorage.setItem('messages', JSON.stringify([]));
-    localStorage.setItem('player1Score', player1Score);
-    localStorage.setItem('player2Score', player2Score);
+    const storedPlayer1 = localStorage.getItem('player1') || 'Oyuncu 1';
+    const storedPlayer2 = localStorage.getItem('player2') || 'Oyuncu 2';
+    const storedPlayerTurn = localStorage.getItem('playerTurn') || 'left';
+    const storedPlayer1Time = parseInt(localStorage.getItem('player1Time')) || 60;
+    const storedPlayer2Time = parseInt(localStorage.getItem('player2Time')) || 60;
+    const storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
+    const storedPlayer1Score = parseInt(localStorage.getItem('player1Score')) || 0;
+    const storedPlayer2Score = parseInt(localStorage.getItem('player2Score')) || 0;
+
+    setPlayer1(storedPlayer1);
+    setPlayer2(storedPlayer2);
+    setPlayerTurn(storedPlayerTurn);
+    setPlayer1Time(storedPlayer1Time);
+    setPlayer2Time(storedPlayer2Time);
+    setMessages(storedMessages);
+    setPlayer1Score(storedPlayer1Score);
+    setPlayer2Score(storedPlayer2Score);
   }, []);
 
   useEffect(() => {
     let timer;
     if (playerTurn === 'left' && player1Time > 0) {
       timer = setInterval(() => {
-        setPlayer1Time((prev) => prev - 1);
+        setPlayer1Time(prev => prev - 1);
       }, 1000);
     } else if (playerTurn === 'right' && player2Time > 0) {
       timer = setInterval(() => {
-        setPlayer2Time((prev) => prev - 1);
+        setPlayer2Time(prev => prev - 1);
       }, 1000);
     }
 
@@ -54,31 +64,55 @@ function GamePage() {
     localStorage.setItem('player2Time', player2Time);
     localStorage.setItem('playerTurn', playerTurn);
     localStorage.setItem('messages', JSON.stringify(messages));
-  }, [player1Time, player2Time, playerTurn, messages]);
+    localStorage.setItem('player1Score', player1Score);
+    localStorage.setItem('player2Score', player2Score);
+  }, [player1Time, player2Time, playerTurn, messages, player1Score, player2Score]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message.trim() === '') return;
+
+    let aiResponse = '';
     try {
-      console.log(message);
-      const response = await axios.post("http://localhost:5000/getResponse",  { message });
-      
-      
-      setaiAnswer(response.data.assistantMessage);
+      const response = await axios.post("http://localhost:5000/getResponse", { message });
+      aiResponse = response.data.assistantMessage.toLowerCase().trim();
+      if (aiResponse === 'evet') {
+        aiResponse += '.';
+      } else if (aiResponse === 'hayır') {
+        aiResponse += '.';
+      }
     } catch (err) {
       console.error("Hata oluştu:", err.message);
+      return; // Exit if there's an error
     }
+
     const newMessage = {
       sender: playerTurn === 'left' ? player1 : player2,
       text: message,
       side: playerTurn === 'left' ? 'left' : 'right',
+      aiAnswer: aiResponse,
     };
 
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
     localStorage.setItem('messages', JSON.stringify(updatedMessages));
 
-    // Update the turn and time
+    if (aiResponse === 'evet.') {
+      if (playerTurn === 'left') {
+        setPlayer1Score(prev => {
+          const newScore = prev + 10;
+          localStorage.setItem('player1Score', newScore);
+          return newScore;
+        });
+      } else {
+        setPlayer2Score(prev => {
+          const newScore = prev + 10;
+          localStorage.setItem('player2Score', newScore);
+          return newScore;
+        });
+      }
+    }
+
     if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
       setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
     }
@@ -99,7 +133,7 @@ function GamePage() {
     if (side === 'left') {
       setPlayer1Time(0);
       setPlayerTurn('right');
-      setPlayer2Score((prev) => {
+      setPlayer2Score(prev => {
         const newScore = prev + 1;
         localStorage.setItem('player2Score', newScore);
         return newScore;
@@ -107,7 +141,7 @@ function GamePage() {
     } else if (side === 'right') {
       setPlayer2Time(0);
       setPlayerTurn('left');
-      setPlayer1Score((prev) => {
+      setPlayer1Score(prev => {
         const newScore = prev + 1;
         localStorage.setItem('player1Score', newScore);
         return newScore;
@@ -129,7 +163,6 @@ function GamePage() {
             <div className="timer">{player1Time}s</div>
             <div className="score">Puan: {player1Score}</div>
             <h3 className="player-name">{player1}</h3>
-            
             <button onClick={() => handleSurrender('left')} className="pes-et-button" disabled={player1Time <= 0}>
               Pes Et
             </button>
@@ -139,9 +172,8 @@ function GamePage() {
         <div className="player-info">
           <div className="right-player">
             <div className="timer">{player2Time}s</div>
-             <div className="score">Puan: {player2Score}</div>
+            <div className="score">Puan: {player2Score}</div>
             <h3 className="player-name">{player2}</h3>
-           
             <button onClick={() => handleSurrender('right')} className="pes-et-button" disabled={player2Time <= 0}>
               Pes Et
             </button>
@@ -151,11 +183,13 @@ function GamePage() {
 
       <div className="chat-box">
         {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.side}-message`}>
+          <div
+            key={index}
+            className={`message ${msg.side}-message ${
+              msg.aiAnswer === 'evet.' ? 'green-message' : msg.aiAnswer === 'hayır.' ? 'red-message' : ''
+            }`}
+          >
             <strong>{msg.sender}: </strong>{msg.text}
-
-            <div>{aiAnswer}</div>
-
           </div>
         ))}
       </div>

@@ -211,24 +211,31 @@
   max-width: 60%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   position: relative;
-  overflow: hidden; /* İçeriğin taşmasını engellemek için */
-  flex-shrink: 0; /* Mesajların küçülmesini engellemek için */
+  overflow: hidden; /* Prevent content overflow */
+  flex-shrink: 0; /* Prevent message bubbles from shrinking */
 }
 
 .left-message {
   align-self: flex-start;
-  background-color: #39D49C;
   color: #ffffff;
-  border-bottom-left-radius: 4px; /* Görsel tutarlılık için ayarlandı */
-  flex-shrink: 0; /* Mesaj balonunun boyutunu korumak için */
+  border-bottom-left-radius: 4px; /* Adjust for visual consistency */
+  flex-shrink: 0; /* Preserve message bubble size */
 }
 
 .right-message {
   align-self: flex-end;
-  background-color: #00796b;
   color: #ffffff;
-  border-bottom-right-radius: 4px; /* Görsel tutarlılık için ayarlandı */
-  flex-shrink: 0; /* Mesaj balonunun boyutunu korumak için */
+  border-bottom-right-radius: 4px; /* Adjust for visual consistency */
+  flex-shrink: 0; /* Preserve message bubble size */
+}
+
+/* Adjust message bubble colors based on AI response */
+.green-message {
+  background-color: green;
+}
+
+.red-message {
+  background-color: red;
 }
 
 .message::after {
@@ -243,14 +250,15 @@
 .left-message::after {
   left: -10px;
   border-width: 10px 10px 0 0;
-  border-color: #39D49C transparent transparent transparent;
+  border-color: inherit transparent transparent transparent;
 }
 
 .right-message::after {
   right: -10px;
   border-width: 10px 0 0 10px;
-  border-color: #00796b transparent transparent transparent;
+  border-color: inherit transparent transparent transparent;
 }
+
 
 /* Input Area */
 .input-area {
