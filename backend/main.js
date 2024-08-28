@@ -68,7 +68,7 @@ loadJsonData().then((jsonData) => {
             
             conversationHistory.pop({"role": "user", "content": soru});
             
-            return res.status(200).json({assistantMessage});
+            return res.status(200).json({assistantMessage,target});
         }
     });
   }).catch((err) => {

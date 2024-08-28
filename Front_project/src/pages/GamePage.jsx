@@ -74,8 +74,11 @@ function GamePage() {
 
     let aiResponse = '';
     try {
+      
       const response = await axios.post("http://localhost:5000/getResponse", { message });
+      const target = response.data.target.toLowerCase().trim();
       aiResponse = response.data.assistantMessage.toLowerCase().trim();
+      console.log({target});
       if (aiResponse === 'evet') {
         aiResponse += '.';
       } else if (aiResponse === 'hayır') {
