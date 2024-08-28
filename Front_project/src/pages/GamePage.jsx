@@ -158,6 +158,14 @@ function GamePage() {
     return false;
   };
 
+
+  const colorMessage = (answer) => {
+    color = "";
+    if (answer === "evet.") {
+
+    };
+  }
+
   return (
     <div className="game-page">
       <div className="top-bar">
