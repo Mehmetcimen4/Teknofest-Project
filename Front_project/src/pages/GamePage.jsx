@@ -16,7 +16,8 @@ function GamePage() {
   const [message, setMessage] = useState('');
   const [player1Score, setPlayer1Score] = useState(() => parseInt(localStorage.getItem('player1Score')) || 0);
   const [player2Score, setPlayer2Score] = useState(() => parseInt(localStorage.getItem('player2Score')) || 0);
-
+  const [aiResponse, setaiResponse] = useState('');
+  const [target, setTarget] = useState('');
   // Fetch data from localStorage whenever the component mounts or data changes
   useEffect(() => {
     const storedPlayer1 = localStorage.getItem('player1') || 'Oyuncu 1';
@@ -67,38 +68,38 @@ function GamePage() {
     localStorage.setItem('player1Score', player1Score);
     localStorage.setItem('player2Score', player2Score);
   }, [player1Time, player2Time, playerTurn, messages, player1Score, player2Score]);
-
+  
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message.trim() === '') return;
-
-    let aiResponse = '';
+    
+    
     try {
       
-      const response = await axios.post("http://localhost:5000/getResponse", { message , restart : "no" });
+      const response = await axios.post("http://localhost:5000/getResponse", {message});
       const target = response.data.target.toLowerCase().trim();
-      aiResponse = response.data.assistantMessage.toLowerCase().trim();
+      const assistantMessage = response.data.assistantMessage.toLowerCase().trim();
+      setaiResponse(assistantMessage);
+      setTarget(target);
+      console.log(response.data.assistantMessage.toLowerCase().trim());
       console.log({target});
-      if (aiResponse === 'evet') {
-        aiResponse += '.';
-      } else if (aiResponse === 'hayır') {
-        aiResponse += '.';
-      }
+      //console.log(aiResponse);
+      const newMessage = {
+        sender: playerTurn === 'left' ? player1 : player2,
+        text: message,
+        side: playerTurn === 'left' ? 'left' : 'right',
+        aiAnswer: assistantMessage, // Sunucudan gelen cevabı burada kullanıyoruz
+      };
+      const updatedMessages = [...messages, newMessage];
+      setMessages(updatedMessages);
+      localStorage.setItem('messages', JSON.stringify(updatedMessages));
     } catch (err) {
       console.error("Hata oluştu:", err.message);
       return; // Exit if there's an error
     }
 
-    const newMessage = {
-      sender: playerTurn === 'left' ? player1 : player2,
-      text: message,
-      side: playerTurn === 'left' ? 'left' : 'right',
-      aiAnswer: aiResponse,
-    };
 
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
+    
 
     if (aiResponse === 'evet.') {
       if (playerTurn === 'left') {
@@ -121,7 +122,7 @@ function GamePage() {
     }
     setMessage('');
   };
-
+  
   const handleBackButton = () => {
     localStorage.removeItem('player1Time');
     localStorage.removeItem('player2Time');
@@ -160,10 +161,15 @@ function GamePage() {
 
 
   const colorMessage = (answer) => {
-    color = "";
+    let color = "";
     if (answer === "evet.") {
-
-    };
+      color = "green-message";
+    }else if (answer === "hayır."){
+      color = "red-message"
+    }else if (answer === "doğru!"){
+      color = "yellow-message"
+    }
+    return color;
   }
 
   return (
@@ -179,7 +185,7 @@ function GamePage() {
             </button>
           </div>
         </div>
-
+      <div>{target}</div>
         <div className="player-info">
           <div className="right-player">
             <div className="timer">{player2Time}s</div>
@@ -196,10 +202,9 @@ function GamePage() {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message ${msg.side}-message ${
-              msg.aiAnswer === 'evet.' ? 'green-message' : msg.aiAnswer === 'hayır.' ? 'red-message' : ''
-            }`}
+            className={`message ${msg.side}-message ${colorMessage(msg.aiAnswer)}` }
           >
+            
             <strong>{msg.sender}: </strong>{msg.text}
           </div>
         ))}

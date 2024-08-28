@@ -237,6 +237,10 @@
 .red-message {
   background-color: red;
 }
+.yellow-message {
+  background-color: yellow;
+  color:#000000;
+}
 
 .message::after {
   content: '';
