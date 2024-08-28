@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 function Registration() {
   const navigate = useNavigate();
   const [player1, setPlayer1] = useState('');
   const [player2, setPlayer2] = useState('');
   const [time, setTime] = useState(60); // Default to 60 seconds
-
-  const handleStartGame = (e) => {
+  const [restart,setRestart] = useState("yes");
+  const handleStartGame = async (e) => {
     e.preventDefault(); // Prevent the form from automatically submitting
-
+    //setRestart("yes");
     if (player1 && player2) {
       try {
+        
         // Clear any old game data from localStorage
         localStorage.removeItem('player1Time');
         localStorage.removeItem('player2Time');
@@ -29,6 +30,7 @@ function Registration() {
         localStorage.setItem('player2Score', 0); // Initial score for player 2
 
         // Navigate to the game page
+        const response = await axios.post("http://localhost:5000/start-game");
         navigate('/sinif/lise/9/tarih/ünite1/konu1/game');
         
       } catch (error) {
@@ -39,7 +41,28 @@ function Registration() {
       alert('Please enter the names of both players.');
     }
   };
+  /*
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (message.trim() === '') return;
 
+    let aiResponse = '';
+    try {
+      
+      const response = await axios.post("http://localhost:5000/getResponse", { message });
+      const target = response.data.target.toLowerCase().trim();
+      aiResponse = response.data.assistantMessage.toLowerCase().trim();
+      console.log({target});
+      if (aiResponse === 'evet') {
+        aiResponse += '.';
+      } else if (aiResponse === 'hayır') {
+        aiResponse += '.';
+      }
+    } catch (err) {
+      console.error("Hata oluştu:", err.message);
+      return; // Exit if there's an error
+    }
+  */
   return (
     <div className="registration-page">
       <h2>Oyuncu Kayıtı</h2>

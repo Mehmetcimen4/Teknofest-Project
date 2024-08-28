@@ -75,7 +75,7 @@ function GamePage() {
     let aiResponse = '';
     try {
       
-      const response = await axios.post("http://localhost:5000/getResponse", { message });
+      const response = await axios.post("http://localhost:5000/getResponse", { message , restart : "no" });
       const target = response.data.target.toLowerCase().trim();
       aiResponse = response.data.assistantMessage.toLowerCase().trim();
       console.log({target});
