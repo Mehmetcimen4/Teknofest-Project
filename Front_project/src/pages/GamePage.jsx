@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Game.css';
-import summaries from '../../ozet.json';
 import Modal from "../Components/Modal";
 
 function GamePage() {
@@ -22,7 +21,6 @@ function GamePage() {
   const [target, setTarget] = useState('');
   const [timersExpired, setTimersExpired] = useState(false);
   const [winner, setWinner] = useState('');
-  const [summaryInfo, setSummaryInfo] = useState("");
   const [secondStageStarted, setSecondStageStarted] = useState(false); // İkinci aşama başladı mı?
 
   useEffect(() => {
@@ -34,6 +32,7 @@ function GamePage() {
     const storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
     const storedPlayer1Score = parseInt(localStorage.getItem('player1Score')) || 0;
     const storedPlayer2Score = parseInt(localStorage.getItem('player2Score')) || 0;
+    const storedAiResponse = localStorage.getItem('aiResponse') || 'evet';
 
     setPlayer1(storedPlayer1);
     setPlayer2(storedPlayer2);
@@ -43,6 +42,7 @@ function GamePage() {
     setMessages(storedMessages);
     setPlayer1Score(storedPlayer1Score);
     setPlayer2Score(storedPlayer2Score);
+    setaiResponse(storedAiResponse);
   }, []);
 
   useEffect(() => {
@@ -81,7 +81,8 @@ function GamePage() {
     localStorage.setItem('messages', JSON.stringify(messages));
     localStorage.setItem('player1Score', player1Score);
     localStorage.setItem('player2Score', player2Score);
-  }, [player1Time, player2Time, playerTurn, messages, player1Score, player2Score]);
+    localStorage.setItem('aiResponse', aiResponse);
+  }, [player1Time, player2Time, playerTurn, messages, player1Score, player2Score, aiResponse]);
   
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -147,6 +148,7 @@ function GamePage() {
     localStorage.removeItem('playerTurn');
     localStorage.removeItem('player1Score');
     localStorage.removeItem('player2Score');
+    localStorage.removeItem('aiResponse');
     navigate(-1);
   };
 
