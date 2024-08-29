@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Game.css';
+import summaries from '../../ozet.json';
 
 function GamePage() {
   const location = useLocation();
@@ -18,6 +19,8 @@ function GamePage() {
   const [player2Score, setPlayer2Score] = useState(() => parseInt(localStorage.getItem('player2Score')) || 0);
   const [aiResponse, setaiResponse] = useState('');
   const [target, setTarget] = useState('');
+  const [timersExpired, setTimersExpired] = useState(false);
+  const [summaryInfo, setSummaryInfo] = useState("");
   // Fetch data from localStorage whenever the component mounts or data changes
   useEffect(() => {
     const storedPlayer1 = localStorage.getItem('player1') || 'Oyuncu 1';
@@ -172,6 +175,27 @@ function GamePage() {
     return color;
   }
 
+  const endTime = () => {
+    winner = "";
+    if (player1Time <= 0 && player2Time <= 0){
+      setTimersExpired(true);
+      if (player1Score > player2Score) {
+        winner = player1;
+      }
+      else if (player2Score > player1Score) {
+        winner = player2;
+      }
+      
+    }
+
+    return winner;
+
+  };
+
+  const getSummary = (target) => {
+    setSummaryInfo(summaries[target]);
+  };
+
   return (
     <div className="game-page">
       <div className="top-bar">
@@ -230,6 +254,15 @@ function GamePage() {
           Ana Sayfa
         </button>
       </div>
+      {timersExpired && (
+        <div className='endTimePage'>
+          <div className='winner'>Kazanan : {endTime.winner}</div>
+          <button onClick={getSummary({target})} className='back-button'>Özet Bilgi</button>
+          {summaryInfo && <p className='summary-text'>{summaryInfo}</p>}
+          
+        </div>
+      ) 
+        }
     </div>
   );
 }
