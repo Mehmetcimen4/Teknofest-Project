@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Game.css';
 import summaries from '../../ozet.json';
+import Modal from "../Components/Modal";
 
 function GamePage() {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [player1, setPlayer1] = useState(() => localStorage.getItem('player1') || 'Oyuncu 1');
   const [player2, setPlayer2] = useState(() => localStorage.getItem('player2') || 'Oyuncu 2');
   const [playerTurn, setPlayerTurn] = useState(() => localStorage.getItem('playerTurn') || 'left');
@@ -20,6 +21,7 @@ function GamePage() {
   const [aiResponse, setaiResponse] = useState('');
   const [target, setTarget] = useState('');
   const [timersExpired, setTimersExpired] = useState(false);
+  const [winner, setWinner] = useState('');
   const [summaryInfo, setSummaryInfo] = useState("");
   // Fetch data from localStorage whenever the component mounts or data changes
   useEffect(() => {
@@ -43,19 +45,29 @@ function GamePage() {
   }, []);
 
   useEffect(() => {
-    let timer;
-    if (playerTurn === 'left' && player1Time > 0) {
-      timer = setInterval(() => {
+    const timer1 = setInterval(() => {
+      if (playerTurn === 'left' && player1Time > 0) {
         setPlayer1Time(prev => prev - 1);
-      }, 1000);
-    } else if (playerTurn === 'right' && player2Time > 0) {
-      timer = setInterval(() => {
+      }
+    }, 1000);
+  
+    const timer2 = setInterval(() => {
+      if (playerTurn === 'right' && player2Time > 0) {
         setPlayer2Time(prev => prev - 1);
-      }, 1000);
+      }
+    }, 1000);
+  
+    // Her iki oyuncunun da süresi 0'a ulaştığında endTime fonksiyonunu çağır
+    if (player1Time <= 0 && player2Time <= 0 && !timersExpired) {
+      endTime();  // Kazananı belirle ve modal'ı aç
     }
-
-    return () => clearInterval(timer);
-  }, [playerTurn, player1Time, player2Time]);
+  
+    return () => {
+      clearInterval(timer1);
+      clearInterval(timer2);
+    };
+  }, [player1Time, player2Time, playerTurn, timersExpired]);
+  
 
   useEffect(() => {
     if (player1Time <= 0 && playerTurn === 'left') {
@@ -75,56 +87,58 @@ function GamePage() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message.trim() === '') return;
-    
-    
+  
     try {
-      
-      const response = await axios.post("http://localhost:5000/getResponse", {message});
+      const response = await axios.post("http://localhost:5000/getResponse", { message });
       const target = response.data.target.toLowerCase().trim();
       const assistantMessage = response.data.assistantMessage.toLowerCase().trim();
+  
+      // Burada setState'ler asenkron çalıştığı için, önce aiResponse güncelleniyor.
       setaiResponse(assistantMessage);
       setTarget(target);
-      console.log(response.data.assistantMessage.toLowerCase().trim());
-      console.log({target});
-      //console.log(aiResponse);
+  
       const newMessage = {
         sender: playerTurn === 'left' ? player1 : player2,
         text: message,
         side: playerTurn === 'left' ? 'left' : 'right',
         aiAnswer: assistantMessage, // Sunucudan gelen cevabı burada kullanıyoruz
       };
+  
+      // Mesajları güncelle
       const updatedMessages = [...messages, newMessage];
       setMessages(updatedMessages);
       localStorage.setItem('messages', JSON.stringify(updatedMessages));
+      
+      // State güncellemelerinin ardından güncellenmiş aiResponse değeri kullanılır.
+      if (assistantMessage === 'evet.') {
+        if (playerTurn === 'left') {
+          setPlayer1Score((prev) => {
+            const newScore = prev + 10;
+            localStorage.setItem('player1Score', newScore);
+            return newScore;
+          });
+        } else {
+          setPlayer2Score((prev) => {
+            const newScore = prev + 10;
+            localStorage.setItem('player2Score', newScore);
+            return newScore;
+          });
+        }
+      }
+  
+      // Sıra değişikliğini doğru yapabilmek için playerTurn kontrolü
+      if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
+        setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
+      }
+  
+      // Mesaj kutusunu temizle
+      setMessage('');
     } catch (err) {
       console.error("Hata oluştu:", err.message);
-      return; // Exit if there's an error
+      return; // Hata durumunda çıkış
     }
-
-
-    
-
-    if (aiResponse === 'evet.') {
-      if (playerTurn === 'left') {
-        setPlayer1Score(prev => {
-          const newScore = prev + 10;
-          localStorage.setItem('player1Score', newScore);
-          return newScore;
-        });
-      } else {
-        setPlayer2Score(prev => {
-          const newScore = prev + 10;
-          localStorage.setItem('player2Score', newScore);
-          return newScore;
-        });
-      }
-    }
-
-    if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
-      setPlayerTurn(playerTurn === 'left' ? 'right' : 'left');
-    }
-    setMessage('');
   };
+  
   
   const handleBackButton = () => {
     localStorage.removeItem('player1Time');
@@ -174,26 +188,24 @@ function GamePage() {
     }
     return color;
   }
-
   const endTime = () => {
-    winner = "";
-    if (player1Time <= 0 && player2Time <= 0){
+    if (player1Time <= 0 && player2Time <= 0 && !timersExpired) {
       setTimersExpired(true);
+
+      let winner = "";
+
       if (player1Score > player2Score) {
-        winner = player1;
+        winner = `${player1} (Left)`;
+      } else if (player2Score > player1Score) {
+        winner = `${player2} (Right)`;
+      } else {
+        winner = "Beraberlik";
       }
-      else if (player2Score > player1Score) {
-        winner = player2;
-      }
-      
+
+      setWinner(winner);  // winner state'ini güncelle
+      setModalOpen(true); // Modal'ı aç
     }
-
-    return winner;
-
-  };
-
-  const getSummary = (target) => {
-    setSummaryInfo(summaries[target]);
+    return winner;  // Her durumda kazananı döndür
   };
 
   return (
@@ -254,15 +266,14 @@ function GamePage() {
           Ana Sayfa
         </button>
       </div>
-      {timersExpired && (
-        <div className='endTimePage'>
-          <div className='winner'>Kazanan : {endTime.winner}</div>
-          <button onClick={getSummary({target})} className='back-button'>Özet Bilgi</button>
-          {summaryInfo && <p className='summary-text'>{summaryInfo}</p>}
-          
-        </div>
-      ) 
-        }
+      {modalOpen && (
+  <Modal setOpenModal={setModalOpen} winner={endTime()}>
+    <div className="endTimePage">
+      <div className="winner">Kazanan: {endTime()}</div>
+    </div>
+  </Modal>
+)}
+
     </div>
   );
 }

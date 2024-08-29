@@ -1,0 +1,82 @@
+.modalBackground {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(200, 200, 200, 0.8); /* Şeffaflık eklendi */
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContainer {
+    width: 350px; /* Boyut daha da küçültüldü */
+    height: 300px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px; /* Padding azaltıldı */
+  }
+  
+  .modalContainer .title {
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px; /* Margin küçültüldü */
+    font-size: 1.2rem; /* Font boyutu küçültüldü */
+  }
+  
+  .titleCloseBtn {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .titleCloseBtn button {
+    background-color: transparent;
+    border: none;
+    font-size: 18px; /* Font boyutu küçültüldü */
+    cursor: pointer;
+  }
+  
+  .modalContainer .body {
+    flex: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem; /* Font boyutu küçültüldü */
+    text-align: center;
+  }
+  
+  .modalContainer .footer {
+    flex: 20%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .modalContainer .footer button {
+    width: 90px; /* Buton boyutu küçültüldü */
+    height: 30px; /* Buton yüksekliği küçültüldü */
+    margin: 5px;
+    border: none;
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 8px;
+    font-size: 14px; /* Font boyutu küçültüldü */
+    cursor: pointer;
+  }
+  
+  #homeBtn {
+    background-color: dodgerblue;
+  }
+  
+  #newGameBtn {
+    background-color: green;
+  }
+  
+  #summaryBtn {
+    background-color: orange;
+  }
+  
