@@ -338,3 +338,25 @@ button:disabled {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+.target-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #28a745; /* Tema uygun yeşil */
+  color: #ffffff;
+  font-size: 1.2rem; /* Yazı boyutu küçültüldü */
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; /* Ortaladı */
+  max-width: 400px;
+  text-align: center;
+}
+
+.target-area p {
+  margin: 0px 0; /* Alt ve üst boşluk */
+}
+

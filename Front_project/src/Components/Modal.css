@@ -12,7 +12,7 @@
   
   .modalContainer {
     width: 350px; /* Boyut daha da küçültüldü */
-    height: 300px;
+    height: 350px;
     border-radius: 12px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -34,7 +34,7 @@
   }
   
   .titleCloseBtn button {
-    background-color: transparent;
+    background-color: red;
     border: none;
     font-size: 18px; /* Font boyutu küçültüldü */
     cursor: pointer;
@@ -58,7 +58,7 @@
   
   .modalContainer .footer button {
     width: 90px; /* Buton boyutu küçültüldü */
-    height: 30px; /* Buton yüksekliği küçültüldü */
+    height: 50px; /* Buton yüksekliği küçültüldü */
     margin: 5px;
     border: none;
     background-color: cornflowerblue;
@@ -66,6 +66,7 @@
     border-radius: 8px;
     font-size: 14px; /* Font boyutu küçültüldü */
     cursor: pointer;
+    
   }
   
   #homeBtn {
