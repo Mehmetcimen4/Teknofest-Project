@@ -12,9 +12,9 @@
   
   .modalContainer {
     width: 350px; /* Boyut daha da küçültüldü */
-    height: 350px;
+    height: 365px;
     border-radius: 12px;
-    background-color: white;
+    background-color: #66cdaa;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     display: flex;
     flex-direction: column;
@@ -36,8 +36,13 @@
   .titleCloseBtn button {
     background-color: red;
     border: none;
-    font-size: 18px; /* Font boyutu küçültüldü */
+    font-size: 15px; /* Font boyutu küçültüldü */
     cursor: pointer;
+  }
+  .kapsam{
+    background-color: rgb(126, 210, 182);
+    padding: 5px 0;
+    border-radius: 10px;
   }
   
   .modalContainer .body {
@@ -45,7 +50,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.9rem; /* Font boyutu küçültüldü */
+    font-size: 1.3rem; /* Font boyutu küçültüldü */
+    font-weight: bold;
     text-align: center;
   }
   
@@ -58,13 +64,13 @@
   
   .modalContainer .footer button {
     width: 90px; /* Buton boyutu küçültüldü */
-    height: 50px; /* Buton yüksekliği küçültüldü */
+    height: 55px; /* Buton yüksekliği küçültüldü */
     margin: 5px;
     border: none;
     background-color: cornflowerblue;
     color: white;
     border-radius: 8px;
-    font-size: 14px; /* Font boyutu küçültüldü */
+    font-size: 13px; /* Font boyutu küçültüldü */
     cursor: pointer;
     
   }

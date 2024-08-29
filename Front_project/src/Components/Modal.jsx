@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 
 function Modal({ setOpenModal, winner }) {
+  const navigate = useNavigate(); // useNavigate hook'unu tanımladık
+
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -17,13 +20,14 @@ function Modal({ setOpenModal, winner }) {
         <div className="title">
           <h1>Oyun Bitti</h1>
         </div>
+        <div className="kapsam">
         <div className="body">
           <p>Kazanan: {winner}</p>
         </div>
         <div className="footer">
           <button
             onClick={() => {
-              setOpenModal(false);
+              navigate("/"); // Ana sayfaya yönlendirme
             }}
             id="homeBtn"
           >
@@ -47,6 +51,7 @@ function Modal({ setOpenModal, winner }) {
           >
             Konu Özeti
           </button>
+        </div>
         </div>
       </div>
     </div>
