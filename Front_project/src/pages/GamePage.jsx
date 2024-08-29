@@ -199,7 +199,7 @@ function GamePage() {
       } else if (player2Score > player1Score) {
         winner = `${player2} (Right)`;
       } else {
-        winner = "Beraberlik";
+        winner = "Dostluk";
       }
 
       setWinner(winner);  
