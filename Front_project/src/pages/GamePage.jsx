@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Game.css';
 import Modal from "../Components/Modal";
 
 function GamePage() {
+  const chatBoxRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
@@ -23,6 +24,12 @@ function GamePage() {
   const [winner, setWinner] = useState('');
   const [secondStageStarted, setSecondStageStarted] = useState(false); // İkinci aşama başladı mı?
   const [clearInput, setClearInput] = useState(true);
+
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]); // messages değiştiğinde scroll en aşağı kayar
 
   useEffect(() => {
     const storedPlayer1 = localStorage.getItem('player1') || 'Oyuncu 1';
@@ -255,7 +262,7 @@ function GamePage() {
         {secondStageStarted && (
       <div className="target-area">
         <p>İkinci aşama başladı!</p>
-        <p>Hedef: {target}</p>
+        <p>Hedef: {target.toUpperCase()}</p>
       </div>
     )}
 
@@ -272,7 +279,7 @@ function GamePage() {
         </div>
       </div>
 
-      <div className="chat-box">
+      <div className="chat-box" ref={chatBoxRef}>
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -305,7 +312,7 @@ function GamePage() {
         </button>
       </div>
       {modalOpen && (
-        <Modal setOpenModal={setModalOpen} winner={endTime()}>
+        <Modal setOpenModal={setModalOpen} winner={endTime()} target={target}>
           <div className="endTimePage">
             <div className="winner">Kazanan: {endTime()}</div>
           </div>

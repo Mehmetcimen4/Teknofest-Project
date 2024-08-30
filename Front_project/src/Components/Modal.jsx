@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import KonuOzetiModal from './KonuOzet';
 import "./Modal.css";
 
-function Modal({ setOpenModal, winner }) {
-  const navigate = useNavigate(); // useNavigate hook'unu tanımladık
+function Modal({ setOpenModal, winner, target }) {
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   return (
     <div className="modalBackground">
       <div className="modalContainer">
         <div className="titleCloseBtn">
           <button
-            onClick={() => {
-              setOpenModal(false);
-            }}
+            onClick={() => setOpenModal(false)}
           >
             X
           </button>
@@ -21,38 +23,30 @@ function Modal({ setOpenModal, winner }) {
           <h1>Oyun Bitti</h1>
         </div>
         <div className="kapsam">
-        <div className="body">
-          <p>Kazanan: {winner}</p>
-        </div>
-        <div className="footer">
-          <button
-            onClick={() => {
-              navigate("/"); // Ana sayfaya yönlendirme
-            }}
-            id="homeBtn"
-          >
-            Ana Sayfa
-          </button>
-          <button
-            onClick={() => {
-              setOpenModal(false);
-              navigate("/sinif/lise/9/tarih/ünite1/konu1/registration");
-              // Burada yeni oyun başlatma işlevini ekleyebilirsiniz
-            }}
-            id="newGameBtn"
-          >
-            Yeni Oyun
-          </button>
-          <button
-            onClick={() => {
-              setOpenModal(false);
-              // Burada konu özeti sayfasına yönlendirme işlevini ekleyebilirsiniz
-            }}
-            id="summaryBtn"
-          >
-            Konu Özeti
-          </button>
-        </div>
+          <div className="body">
+            <p>Kazanan: {winner}</p>
+          </div>
+          <div className="footer">
+            <button
+              onClick={() => navigate("/")}
+              id="homeBtn"
+            >
+              Ana Sayfa
+            </button>
+            <button
+              onClick={() => {
+                setOpenModal(false);
+                navigate(`/sinif/lise/9/tarih/ünite1/konu1/registration`);
+              }}
+              id="newGameBtn"
+            >
+              Yeni Oyun
+            </button>
+            <div>
+              <button onClick={openModal} id="summaryBtn">Konu Özeti</button>
+              <KonuOzetiModal isOpen={modalOpen} onClose={closeModal} target={target} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

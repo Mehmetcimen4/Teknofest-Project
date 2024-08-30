@@ -87,3 +87,53 @@
     background-color: orange;
   }
   
+  /* KonuÖzetiModal.css */
+
+.konuOzetiBackground {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Şeffaflık eklendi */
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.konuOzetiContainer {
+  width: 900px; /* Genişlik ayarlandı */
+  height: 650px; /* Yükseklik ayarlandı */
+  border-radius: 12px;
+  background-color: #66cdaa; /* Yeşil arka plan */
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Padding eklendi */
+}
+
+.konuOzetiTitle {
+  text-align: center;
+  font-size: 1.5rem; /* Başlık font boyutu */
+  margin-bottom: 15px; /* Başlık ve metin arasındaki boşluk */
+}
+
+.konuOzetiBody {
+  flex: 1;
+  font-size: 1.2rem; /* Metin font boyutu */
+  text-align: center;
+  overflow-y: auto; /* Uzun metinler için kaydırma */
+}
+
+.konuOzetiCloseBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.konuOzetiCloseBtn button {
+  background-color: red;
+  border: none;
+  font-size: 16px; /* Font boyutu */
+  cursor: pointer;
+  color: white;
+}
