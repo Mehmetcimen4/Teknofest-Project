@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 function Registration() {
   const navigate = useNavigate();
-  const [player1, setPlayer1] = useState('');
-  const [player2, setPlayer2] = useState('');
-  const [time, setTime] = useState(60); // Default to 60 seconds
+  const [player1, setPlayer1] = useState(localStorage.getItem("player1") || "");
+  const [player2, setPlayer2] = useState(localStorage.getItem("player2") || "");
+  const [time, setTime] = useState(localStorage.getItem("time") || 60); // Default to 60 seconds
   const [restart,setRestart] = useState("yes");
   const handleStartGame = async (e) => {
     e.preventDefault(); // Prevent the form from automatically submitting
@@ -28,6 +28,7 @@ function Registration() {
         localStorage.setItem('player2Time', time); // Set time for player 2
         localStorage.setItem('player1Score', 0); // Initial score for player 1
         localStorage.setItem('player2Score', 0); // Initial score for player 2
+        localStorage.setItem('time', time);
 
         // Navigate to the game page
         const response = await axios.post("http://localhost:5000/start-game");
@@ -41,28 +42,19 @@ function Registration() {
       alert('Please enter the names of both players.');
     }
   };
-  /*
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (message.trim() === '') return;
-
-    let aiResponse = '';
-    try {
-      
-      const response = await axios.post("http://localhost:5000/getResponse", { message });
-      const target = response.data.target.toLowerCase().trim();
-      aiResponse = response.data.assistantMessage.toLowerCase().trim();
-      console.log({target});
-      if (aiResponse === 'evet') {
-        aiResponse += '.';
-      } else if (aiResponse === 'hayır') {
-        aiResponse += '.';
-      }
-    } catch (err) {
-      console.error("Hata oluştu:", err.message);
-      return; // Exit if there's an error
-    }
-  */
+  const handleBackButton = () => {
+    localStorage.removeItem('player1Time');
+    localStorage.removeItem('player2Time');
+    localStorage.removeItem('messages');
+    localStorage.removeItem('playerTurn');
+    localStorage.removeItem('player1Score');
+    localStorage.removeItem('player2Score');
+    localStorage.removeItem('aiResponse');
+    localStorage.removeItem('time');
+    localStorage.removeItem('player1');
+    localStorage.removeItem('player2');
+    navigate("/sinif/lise/9/tarih/ünite1");
+  };
   return (
     <div className="registration-page">
       <h2>Oyuncu Kayıtı</h2>
@@ -96,7 +88,7 @@ function Registration() {
         <button onClick={handleStartGame} className="start-button">Oyuna başla</button>
       </div>
 
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
+      <button onClick={() => handleBackButton()} className="back-button">Geri</button>
     </div>
   );
 }

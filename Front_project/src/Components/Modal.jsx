@@ -36,6 +36,7 @@ function Modal({ setOpenModal, winner }) {
           <button
             onClick={() => {
               setOpenModal(false);
+              navigate("/sinif/lise/9/tarih/ünite1/konu1/registration");
               // Burada yeni oyun başlatma işlevini ekleyebilirsiniz
             }}
             id="newGameBtn"

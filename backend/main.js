@@ -41,7 +41,7 @@ async function startNewGame() {
         let randomData = jsonData[randomIndex];
 
         target = randomData.name;
-        referenceText = randomData.description;
+        referenceText = randomData.definition;
         console.log(`Hedef Kelime: ${target}`);
         //conv history here
             
@@ -55,23 +55,21 @@ async function startNewGame() {
 }
 app.post("/getResponse", async (req,res) => {
     //target = startNewGame().toString();
-    conversationHistory.push({"role": "system", "content": `cevabı  ${target.toLowerCase()} olan bir kelime oyunu oynuyoruz. Kullanıcılar sana bu kelime hakkında sorular soracak bu sorulara evet veya hayır cevapları ver. Eğer soru ${target.toLowerCase()} kelimesinin tamamını içeriyorsa 'Doğru!' de: `});
+    conversationHistory.push({
+        "role": "system",
+        "content": `Bu oyunda, seninle bir kelime oyunu oynayacağız. Hedef kelime "${target.toLowerCase()}". Oyunun kuralları şöyle:
+    
+        1. Kullanıcılar sana cümleler verecek.
+        2. Eğer cümlede hedef kelime "${target.toLowerCase()}" geçiyorsa, "Doğru!" cevabını ver.
+        3. Eğer cümledeki herhangi bir kelime hedef kelimeyle alakalıysa, "Evet" cevabını ver.
+        4. Cümlede hedef kelimeyle alakalı hiçbir şey yoksa, "Hayır" cevabını ver.
+    
+    Unutma, sadece tek kelimelik cevaplar vereceksin.`
+    });
     try {
-        while(true){
-            /*
-            let restart = req.body.restart;
-            console.log(restart);
-            
-            if(restart === "yes"){
-                startNewGame();
-                
-                console.log("generated");
-                restart = "no";
-                
-            }
-            */
-            
-            const soru = req.body.message;
+        while(true){ 
+            let soru = req.body.message;
+            soru = soru + "?"
             console.log(soru);
             
             if (soru.trim() === "") {
@@ -85,7 +83,7 @@ app.post("/getResponse", async (req,res) => {
             const response = await openai.chat.completions.create({
                 model: "gpt-4o-mini",
                 messages: conversationHistory,
-                max_tokens: 10
+                max_tokens: 6
             });
     
             const assistantMessage = response.choices[0].message.content;
@@ -101,106 +99,6 @@ app.post("/getResponse", async (req,res) => {
     }
 })
 
-/*
-loadJsonData().then((jsonData) => {
-    target = startNewGame().toString();
-    conversationHistory.push({"role": "system", "content": `cevabı  ${target.toLowerCase()} olan bir kelime oyunu oynuyoruz. Kullanıcılar sana bu kelime hakkında sorular soracak bu sorulara evet veya hayır cevapları ver. Eğer soru ${target.toLowerCase()} kelimesinin tamamını içeriyorsa 'Doğru!' de: `});
-    app.post('/getResponse', async (req, res) => {
-        while(true){
-            
-            let restart = req.body.restart;
-            console.log(restart);
-            
-            if(restart === "yes"){
-                startNewGame();
-                
-                console.log("generated");
-                restart = "no";
-                
-            }
-            
-            
-            const soru = req.body.message;
-            console.log(soru);
-            
-            if (soru.trim() === "") {
-                console.log("Soru girilmedi, program sonlandırılıyor.");
-                
-            }
-    
-            // Kullanıcı mesajını geçmişe ekliyoruz
-            conversationHistory.push({"role": "user", "content": soru});
-            console.log(conversationHistory);
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: conversationHistory,
-                max_tokens: 10
-            });
-    
-            const assistantMessage = response.choices[0].message.content;
-            
-            
-            conversationHistory.pop({"role": "user", "content": soru});
-            
-            console.log(`Assistant  message : ${assistantMessage}`)
-            return res.status(200).json({assistantMessage,target});
-        }
-
-        }
-    );
-  }).catch((err) => {
-    console.error('Error:', err);
-  });
-*/
-/*
-loadJsonData().then((jsonData) => {
-    let randomIndex = Math.floor(Math.random() * jsonData.length);
-    let randomData = jsonData[randomIndex];
-
-    target = randomData.name;
-    referenceText = randomData.description;
-
-    let conversationHistory = [
-        {"role": "system", "content": `cevabı  ${target.toLowerCase()} olan bir kelime oyunu oynuyoruz . Kullanıcılar sana bu kelime hakkında sorular soracak bu sorulara  evet veya hayır cevapları ver . Eğer soru ${target.toLowerCase()} kelimesinin tamamını içeriyorsa 'Doğru!' de: `}
-    ];
-    console.log(`Hedef Kelime : ${target}`);
-    app.post('/getResponse', async (req, res) => {
-
-        while (true) {
-            let restart = req.body.restart;
-            if(restart === true){
-                break;
-            }
-            const soru = req.body.message;
-            console.log(soru);
-            
-            if (soru.trim() === "") {
-                console.log("Soru girilmedi, program sonlandırılıyor.");
-                
-            }
-    
-            // Kullanıcı mesajını geçmişe ekliyoruz
-            conversationHistory.push({"role": "user", "content": soru});
-            
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: conversationHistory,
-                max_tokens: 10
-            });
-    
-            const assistantMessage = response.choices[0].message.content;
-            
-            
-            conversationHistory.pop({"role": "user", "content": soru});
-            
-            return res.status(200).json({assistantMessage,target});
-        }
-    });
-  }).catch((err) => {
-    console.error('Error:', err);
-  });
-*/
-//
 app.post("/start-game", (req, res) => {
     startNewGame()
       .then(target => {
@@ -211,7 +109,7 @@ app.post("/start-game", (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
       });
   });
-//
+
 app.listen(5000, () => {
     console.log("server started");
 });

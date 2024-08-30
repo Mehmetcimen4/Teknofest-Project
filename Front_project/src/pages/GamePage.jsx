@@ -22,6 +22,7 @@ function GamePage() {
   const [timersExpired, setTimersExpired] = useState(false);
   const [winner, setWinner] = useState('');
   const [secondStageStarted, setSecondStageStarted] = useState(false); // İkinci aşama başladı mı?
+  const [clearInput, setClearInput] = useState(true);
 
   useEffect(() => {
     const storedPlayer1 = localStorage.getItem('player1') || 'Oyuncu 1';
@@ -32,7 +33,7 @@ function GamePage() {
     const storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
     const storedPlayer1Score = parseInt(localStorage.getItem('player1Score')) || 0;
     const storedPlayer2Score = parseInt(localStorage.getItem('player2Score')) || 0;
-    const storedAiResponse = localStorage.getItem('aiResponse') || 'evet';
+    const storedAiResponse = localStorage.getItem('aiResponse') || '';
 
     setPlayer1(storedPlayer1);
     setPlayer2(storedPlayer2);
@@ -60,6 +61,9 @@ function GamePage() {
   
     if (player1Time <= 0 && player2Time <= 0 && !timersExpired) {
       endTime();  
+    }else if((player1Time <= 0 || player2Time <= 0) && clearInput){
+       setMessage("");
+       setClearInput(false); 
     }
   
     return () => {
@@ -82,7 +86,7 @@ function GamePage() {
     localStorage.setItem('player1Score', player1Score);
     localStorage.setItem('player2Score', player2Score);
     localStorage.setItem('aiResponse', aiResponse);
-  }, [player1Time, player2Time, playerTurn, messages, player1Score, player2Score, aiResponse]);
+  }, [player1Time, player2Time, playerTurn, messages, player1Score, player2Score,aiResponse]);
   
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -107,7 +111,7 @@ function GamePage() {
       setMessages(updatedMessages);
       localStorage.setItem('messages', JSON.stringify(updatedMessages));
       
-      if (assistantMessage === 'evet.') {
+      if (assistantMessage === 'evet') {
         if (playerTurn === 'left') {
           setPlayer1Score((prev) => {
             const newScore = prev + (secondStageStarted ? 20 : 10);
@@ -117,6 +121,21 @@ function GamePage() {
         } else {
           setPlayer2Score((prev) => {
             const newScore = prev + (secondStageStarted ? 20 : 10);
+            localStorage.setItem('player2Score', newScore);
+            return newScore;
+          });
+        }
+      }
+      else if(assistantMessage === 'doğru!'){
+        if (playerTurn === 'left') {
+          setPlayer1Score((prev) => {
+            const newScore = prev + 20;
+            localStorage.setItem('player1Score', newScore);
+            return newScore;
+          });
+        } else {
+          setPlayer2Score((prev) => {
+            const newScore = prev + 20;
             localStorage.setItem('player2Score', newScore);
             return newScore;
           });
@@ -165,9 +184,9 @@ function GamePage() {
       setPlayer2Time(0);
       setPlayerTurn('left');
       setPlayer1Score(prev => {
-        const newScore = prev + 1;
-        localStorage.setItem('player1Score', newScore);
-        return newScore;
+      const newScore = prev + 1;
+      localStorage.setItem('player1Score', newScore);
+      return newScore;
       });
     }
   };
@@ -180,12 +199,14 @@ function GamePage() {
 
   const colorMessage = (answer) => {
     let color = "";
-    if (answer === "evet.") {
+    if (answer === "evet") {
       color = "green-message";
-    }else if (answer === "hayır."){
+    }else if (answer === "hayır"){
       color = "red-message"
     }else if (answer === "doğru!"){
       color = "yellow-message"
+    }else{
+      color = "red-message"
     }
     return color;
   }
@@ -225,11 +246,11 @@ function GamePage() {
         </div>
         
         {secondStageStarted && (
-  <div className="target-area">
-    <p>İkinci aşama başladı!</p>
-    <p>Hedef: {target}</p>
-  </div>
-)}
+      <div className="target-area">
+        <p>İkinci aşama başladı!</p>
+        <p>Hedef: {target}</p>
+      </div>
+    )}
 
         
         <div className="player-info">
@@ -262,7 +283,7 @@ function GamePage() {
           onChange={(e) => setMessage(e.target.value)}
           disabled={isSendDisabled()}
         />
-        <button type="submit" disabled={message.trim() === '' || isSendDisabled()}>
+        <button className='sendbtn' type="submit" disabled={message.trim() === '' || isSendDisabled()}>
           Gönder
         </button>
       </form>
