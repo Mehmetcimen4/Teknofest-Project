@@ -47,6 +47,11 @@ function GamePage() {
   }, []);
 
   useEffect(() => {
+
+    const inputElement = document.getElementById('chatInput'); // input alanının id'sini girin
+    if (inputElement) {
+      inputElement.focus();
+    }
     const timer1 = setInterval(() => {
       if (playerTurn === 'left' && player1Time > 0) {
         setPlayer1Time(prev => prev - 1);
@@ -147,6 +152,7 @@ function GamePage() {
         setSecondStageStarted(true);
         setPlayer1Time(prev => prev + 60);
         setPlayer2Time(prev => prev + 60);
+
       }
 
       if ((playerTurn === 'left' && player1Time > 0) || (playerTurn === 'right' && player2Time > 0)) {
@@ -198,18 +204,19 @@ function GamePage() {
   };
 
   const colorMessage = (answer) => {
-    let color = "";
+
+    let color;
     if (answer === "evet") {
-      color = "green-message";
-    }else if (answer === "hayır"){
-      color = "red-message"
-    }else if (answer === "doğru!"){
-      color = "yellow-message"
-    }else{
-      color = "red-message"
+        color = "green-message";
+    } else if (answer === "hayır") {
+        color = "red-message";
+    } else if (answer === "doğru!") {   
+        color =  "yellow-message";
+    } else {
+        color = "red-message";
     }
     return color;
-  }
+}
 
   const endTime = () => {
     if (player1Time <= 0 && player2Time <= 0 && !timersExpired) {
@@ -279,6 +286,7 @@ function GamePage() {
       <form onSubmit={handleSendMessage} className="input-area">
         <input
           type="text"
+          id = "chatInput"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={isSendDisabled()}

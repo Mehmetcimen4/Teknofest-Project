@@ -61,7 +61,7 @@ app.post("/getResponse", async (req,res) => {
     
         1. Kullanıcılar sana cümleler verecek.
         2. Eğer cümlede hedef kelime "${target.toLowerCase()}" geçiyorsa, "Doğru!" cevabını ver.
-        3. Eğer cümledeki herhangi bir kelime hedef kelimeyle alakalıysa, "Evet" cevabını ver.
+        3. Eğer cümledeki herhangi bir kelime hedef kelimeyle ilgiliyse, "Evet" cevabını ver.
         4. Cümlede hedef kelimeyle alakalı hiçbir şey yoksa, "Hayır" cevabını ver.
     
     Unutma, sadece tek kelimelik cevaplar vereceksin.`
@@ -69,7 +69,6 @@ app.post("/getResponse", async (req,res) => {
     try {
         while(true){ 
             let soru = req.body.message;
-            soru = soru + "?"
             console.log(soru);
             
             if (soru.trim() === "") {
@@ -79,7 +78,7 @@ app.post("/getResponse", async (req,res) => {
     
             // Kullanıcı mesajını geçmişe ekliyoruz
             conversationHistory.push({"role": "user", "content": soru});
-            //console.log(conversationHistory);
+            console.log(conversationHistory);
             const response = await openai.chat.completions.create({
                 model: "gpt-4o-mini",
                 messages: conversationHistory,
@@ -89,7 +88,7 @@ app.post("/getResponse", async (req,res) => {
             const assistantMessage = response.choices[0].message.content;
             
             
-            conversationHistory.pop({"role": "user", "content": soru});
+            conversationHistory.length = 0
             
             console.log(`Assistant  message : ${assistantMessage}`)
             return res.status(200).json({assistantMessage,target});
