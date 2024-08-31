@@ -4,6 +4,7 @@ import ozetData from '../data/ozet.json';
 
 function KonuOzetiModal({ isOpen, onClose, target }) {
   const [summary, setSummary] = useState(null);
+
   useEffect(() => {
     if (isOpen) {
       console.log("Target:", target);
@@ -23,7 +24,7 @@ function KonuOzetiModal({ isOpen, onClose, target }) {
     <div className="konuOzetiBackground">
       <div className="konuOzetiContainer">
         <div className="konuOzetiCloseBtn">
-          <button onClick={onClose}>X</button>
+          <button className="closer" onClick={onClose}>X</button>
         </div>
         <div className="konuOzetiTitle">
           <h1>{target}</h1>
@@ -31,7 +32,6 @@ function KonuOzetiModal({ isOpen, onClose, target }) {
         <div className="konuOzetiBody">
           {summary ? (
             <>
-              <h2>{summary.name}</h2>
               <p>{summary.definition}</p>
             </>
           ) : (

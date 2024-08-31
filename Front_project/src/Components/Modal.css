@@ -38,6 +38,7 @@
     border: none;
     font-size: 15px; /* Font boyutu küçültüldü */
     cursor: pointer;
+    color: #ffffff;
   }
   .kapsam{
     background-color: rgb(126, 210, 182);
@@ -87,7 +88,7 @@
     background-color: orange;
   }
   
-  /* KonuÖzetiModal.css */
+ /* KonuÖzetiModal.css */
 
 .konuOzetiBackground {
   width: 100vw;
@@ -99,29 +100,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Öncelikli katman için z-index */
 }
 
 .konuOzetiContainer {
-  width: 900px; /* Genişlik ayarlandı */
-  height: 650px; /* Yükseklik ayarlandı */
-  border-radius: 12px;
-  background-color: #66cdaa; /* Yeşil arka plan */
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 800px; /* Genişlik optimize edildi */
+  height: 600px; /* Yükseklik optimize edildi */
+  border-radius: 20px; /* Daha yuvarlak köşeler */
+  background-color: #66cdaa; /* Daha açık, modern bir yeşil ton */
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3); /* Daha yumuşak gölge */
   display: flex;
   flex-direction: column;
-  padding: 20px; /* Padding eklendi */
+  padding: 30px; /* İçerik için daha geniş padding */
 }
 
 .konuOzetiTitle {
   text-align: center;
-  font-size: 1.5rem; /* Başlık font boyutu */
-  margin-bottom: 15px; /* Başlık ve metin arasındaki boşluk */
+  font-size: 1.2rem; /* Başlık font boyutu artırıldı */
+  font-weight: bold; /* Başlık kalınlaştırıldı */
+  color: #2d6a4f; /* Daha koyu yeşil ton */
+  margin-bottom: 20px; /* Başlık ve metin arasındaki boşluk artırıldı */
 }
 
 .konuOzetiBody {
   flex: 1;
-  font-size: 1.2rem; /* Metin font boyutu */
-  text-align: center;
+  font-size: 1.1rem; /* Metin font boyutu artırıldı */
+  line-height: 1.6; /* Satır aralığı artırıldı */
+  color: #35524a; /* Metin rengi daha koyu yapıldı */
+  text-align: left; /* Metin sola hizalandı */
+  padding: 0 20px; /* Metin ve kenar boşluğu eklendi */
+  background-color: rgb(163, 230, 207); /* Açık gri arka plan */
+  border-radius: 12px; /* Köşeler yuvarlatıldı */
+  box-shadow: inset 0px 2px 10px rgba(0, 0, 0, 0.1); /* İç gölge eklendi */
   overflow-y: auto; /* Uzun metinler için kaydırma */
 }
 
@@ -131,9 +141,16 @@
 }
 
 .konuOzetiCloseBtn button {
-  background-color: red;
+  background-color: #d9534f; /* Kırmızıya daha modern bir ton */
   border: none;
-  font-size: 16px; /* Font boyutu */
+  font-size: 14px; /* Font boyutu büyütüldü */
   cursor: pointer;
   color: white;
+  padding: 4px 4px; /* Düğme içi padding eklendi */
+  border-radius: 8px; /* Köşeler yuvarlatıldı */
+  transition: background-color 0.3s ease; /* Hover animasyonu eklendi */
+}
+
+.konuOzetiCloseBtn button:hover {
+  background-color: #c9302c; /* Hover durumunda kırmızı ton değişimi */
 }
