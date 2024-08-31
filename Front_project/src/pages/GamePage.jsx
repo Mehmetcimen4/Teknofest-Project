@@ -19,7 +19,7 @@ function GamePage() {
   const [player1Score, setPlayer1Score] = useState(() => parseInt(localStorage.getItem('player1Score')) || 0);
   const [player2Score, setPlayer2Score] = useState(() => parseInt(localStorage.getItem('player2Score')) || 0);
   const [aiResponse, setaiResponse] = useState('');
-  const [target, setTarget] = useState('');
+  const [target, setTarget] = useState(localStorage.getItem('target') || "");
   const [timersExpired, setTimersExpired] = useState(false);
   const [winner, setWinner] = useState('');
   const [secondStageStarted, setSecondStageStarted] = useState(false); // İkinci aşama başladı mı?
@@ -111,7 +111,7 @@ function GamePage() {
   
       setaiResponse(assistantMessage);
       setTarget(target);
-  
+
       const newMessage = {
         sender: playerTurn === 'left' ? player1 : player2,
         text: message,
@@ -183,6 +183,19 @@ function GamePage() {
     localStorage.removeItem('aiResponse');
     navigate(-1);
   };
+  const goHomePage = () => {
+    localStorage.removeItem('player1Time');
+    localStorage.removeItem('player2Time');
+    localStorage.removeItem('messages');
+    localStorage.removeItem('playerTurn');
+    localStorage.removeItem('player1Score');
+    localStorage.removeItem('player2Score');
+    localStorage.removeItem('aiResponse');
+    localStorage.removeItem('player1');
+    localStorage.removeItem('player2');
+    localStorage.removeItem('time');
+    navigate("/");
+  };
 
   const handleSurrender = (side) => {
     if (side === 'left') {
@@ -219,6 +232,8 @@ function GamePage() {
         color = "red-message";
     } else if (answer === "doğru!") {   
         color =  "yellow-message";
+    }else if(answer === "gecersiz"){
+      color =  "black-message";
     } else {
         color = "red-message";
     }
@@ -307,16 +322,12 @@ function GamePage() {
         <button onClick={handleBackButton} className="back-button">
           Geri
         </button>
-        <button onClick={() => navigate('/')} className="home-button">
+        <button onClick={goHomePage} className="home-button">
           Ana Sayfa
         </button>
       </div>
       {modalOpen && (
-        <Modal setOpenModal={setModalOpen} winner={endTime()} target={target}>
-          <div className="endTimePage">
-            <div className="winner">Kazanan: {endTime()}</div>
-          </div>
-        </Modal>
+        <Modal setOpenModal={setModalOpen} winner={endTime()} target={target}/>
       )}
     </div>
   );

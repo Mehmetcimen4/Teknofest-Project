@@ -26,7 +26,7 @@ function KonuOzetiModal({ isOpen, onClose, target }) {
           <button onClick={onClose}>X</button>
         </div>
         <div className="konuOzetiTitle">
-          <h1>Konu Özeti</h1>
+          <h1>{target}</h1>
         </div>
         <div className="konuOzetiBody">
           {summary ? (

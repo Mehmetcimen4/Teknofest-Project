@@ -32,6 +32,7 @@ function Registration() {
 
         // Navigate to the game page
         const response = await axios.post("http://localhost:5000/start-game");
+        localStorage.setItem('target', response.data.target);
         navigate('/sinif/lise/9/tarih/ünite1/konu1/game');
         
       } catch (error) {

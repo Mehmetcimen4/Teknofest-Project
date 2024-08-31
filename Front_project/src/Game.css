@@ -241,6 +241,9 @@
   background-color: yellow;
   color:#000000;
 }
+.black-message {
+  background-color: black;
+}
 
 .message::after {
   content: '';
