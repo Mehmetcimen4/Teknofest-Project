@@ -27,7 +27,7 @@ function KonuOzetiModal({ isOpen, onClose, target }) {
           <button className="closer" onClick={onClose}>X</button>
         </div>
         <div className="konuOzetiTitle">
-          <h1>{target}</h1>
+          <h1>{target.toUpperCase()}</h1>
         </div>
         <div className="konuOzetiBody">
           {summary ? (

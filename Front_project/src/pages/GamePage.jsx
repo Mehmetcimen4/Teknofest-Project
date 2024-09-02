@@ -247,9 +247,9 @@ function GamePage() {
       let winner = "";
 
       if (player1Score > player2Score) {
-        winner = `${player1} (Left)`;
+        winner = `${player1} `;
       } else if (player2Score > player1Score) {
-        winner = `${player2} (Right)`;
+        winner = `${player2} `;
       } else {
         winner = "Dostluk";
       }
