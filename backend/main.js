@@ -136,8 +136,18 @@ app.post("/getResponse", async (req, res) => {
             return;
         }
 
+        const editingResponse = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [{ "role": "system", "content": "Kullanıcıdan gelen metni soru cümlesi şeklinde yaz. Örneğin  savaşla alakalı mı?,halifelikle alakalı mı?" }, 
+                       { "role": "user", "content": soru }],
+            max_tokens: 50
+        });
+        
+        const editedQuestion = editingResponse.choices[0].message.content.trim();
+        console.log(`Edited Question: ${editedQuestion}`);
+
         // Kullanıcı mesajını geçmişe ekliyoruz
-        conversationHistory.push({ "role": "user", "content": soru });
+        conversationHistory.push({ "role": "user", "content": editedQuestion });
         console.log(conversationHistory);
 
         const response = await openai.chat.completions.create({
