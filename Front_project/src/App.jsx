@@ -31,7 +31,7 @@ function App() {
       {/* Ana içerik alanı - z-index değerini düşürüyoruz ki sidebar'ın altında kalmasın */}
       <div style={{ backgroundColor: "#66cdaa" }} className="min-h-screen relative z-0">
         <header className="pt-4">
-          <h1 className="text-center text-black text-6xl font-bold pl-16">TUNGA</h1>
+          <h1 className="text-center text-black text-6xl font-bold ">TUNGA</h1>
         </header>
         
         <div className="container mx-auto px-4 py-8">
