@@ -17,16 +17,27 @@ function UniteDetay() {
   ];
 
   return (
-    <div className="unite-detay">
-      <h2>Üniteler</h2>
-      <div className="courses-grid">
+    <div style={{ backgroundColor: "#66cdaa" }} className="min-h-screen flex flex-col items-center justify-center  p-5 text-center">
+      <h2 className="text-3xl font-bold text-gray-700 mb-8 relative -top-16">Üniteler</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
         {unites.map((unite) => (
-          <Link key={unite.name} to={`${unite.path}`} className="course-button">
+          <Link 
+            key={unite.name} 
+            to={`${unite.path}`} 
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-5 rounded-lg shadow-md text-center w-40 transition-all duration-300 hover:shadow-lg"
+          >
             {unite.name}
           </Link>
         ))}
       </div>
-      <button onClick={() => navigate(-1)} className="back-button">Geri</button>
+      
+      <button 
+        onClick={() => navigate(-1)} 
+        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg"
+      >
+        Geri
+      </button>
     </div>
   );
 }

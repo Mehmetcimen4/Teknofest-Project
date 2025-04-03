@@ -1,58 +1,94 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import '../src/App.css';
+import Sidebar from './Components/SideBar'; // Sidebar bileşenini import ediyoruz
 
-// Bileşenleri import edin
+// Components
 import GamePage from './pages/GamePage';
-import Registration from './pages/Registration';
-import Lise from './pages/Lise';
-import Sinif from './pages/Sinif';  // Import the new Sinif component
+import HomePage from './pages/HomePage';
+import GameSelection from './pages/GameSelection';
 import SinifDetay from './pages/SinifDetay';
 import UniteDetay from './pages/UniteDetay';
 import KonuDetay from './pages/KonuDetay';
+import Registration from './pages/Registration';
+import AuthSystem from './Components/AuthSystem';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    // Gerekirse localStorage temizleme veya token silme işlemleri burada yapılabilir
+  };
+
   return (
     <Router>
-      <div className="app">
-        <header className="app-header">
-          <h1 className="title">TUNGA</h1>
+      <Sidebar 
+        isAuthenticated={isAuthenticated} 
+        onLogout={handleLogout} 
+      />
+      
+      {/* Ana içerik alanı - z-index değerini düşürüyoruz ki sidebar'ın altında kalmasın */}
+      <div style={{ backgroundColor: "#66cdaa" }} className="min-h-screen relative z-0">
+        <header className="pt-4">
+          <h1 className="text-center text-black text-6xl font-bold pl-16">TUNGA</h1>
         </header>
-        <Routes>
-          {/* Ana menü */}
-          <Route 
-            path="/" 
-            element={
-              <>
-                <div className="menu">
-                  <Link to="/sinif" className="menu-button">Sınıf</Link>
-                  <Link to="/tek-kisilik" className="menu-button">Tek Kişilik</Link>
-                  <Link to="/online" className="menu-button">Online</Link>
-                </div>
-                <div>
-                  <button className="footer-button">Nasıl Oynanır?</button>
-                </div>
-              </>
-            } 
-          />
+        
+        <div className="container mx-auto px-4 py-8">
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                isAuthenticated ? (
+                  <HomePage />
+                ) : (
+                  <Navigate to="/auth" replace />
+                )
+              } 
+            />
 
-          {/* Sınıf sayfası */}
-          <Route path="/sinif" element={<Sinif />} />
+            <Route 
+              path="/auth" 
+              element={
+                <AuthSystem 
+                  onAuthSuccess={() => setIsAuthenticated(true)} 
+                />
+              } 
+            />
 
-          {/* Lise detayları ve diğer sayfalar */}
-          <Route path="/sinif/lise" element={<Lise />} />
-          <Route path="/sinif/lise/9" element={<SinifDetay sinif="9. Sınıf" />} />
-          <Route path="/sinif/lise/10" element={<Lise />} />
-          <Route path="/sinif/lise/11" element={<Lise />} />
-          <Route path="/sinif/lise/12" element={<Lise />} />
-          <Route path="/sinif/lise/9/:ders" element={<UniteDetay />} />
-          <Route path="/sinif/lise/9/:ders/:unite" element={<KonuDetay />} />
-          <Route path="/sinif/lise/9/:ders/:unite/:konu/registration" element={<Registration />} />
-          <Route path="/sinif/lise/9/:ders/:unite/:konu/game" element={<GamePage />} />
+            <Route 
+              path="/gameselection" 
+              element={isAuthenticated ? <GameSelection /> : <Navigate to="/auth" replace />} 
+            />
 
-          {/* Yönlendirmeler ve varsayılan rota */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Route 
+              path="/sinif" 
+              element={isAuthenticated ? <SinifDetay sinif="Lise 9" /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route 
+              path="/sinif/lise/9/:ders" 
+              element={isAuthenticated ? <UniteDetay /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route 
+              path="/sinif/lise/9/:ders/:unite" 
+              element={isAuthenticated ? <KonuDetay /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route 
+              path="/sinif/lise/9/:ders/:unite/:konu/registration" 
+              element={isAuthenticated ? <Registration /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route 
+              path="/sinif/lise/9/:ders/:unite/:konu/game" 
+              element={isAuthenticated ? <GamePage /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
