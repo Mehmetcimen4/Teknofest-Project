@@ -12,6 +12,7 @@ import UniteDetay from './pages/UniteDetay';
 import KonuDetay from './pages/KonuDetay';
 import Registration from './pages/Registration';
 import AuthSystem from './Components/AuthSystem';
+import OgrenciProfil from './pages/Profile'; // Profil sayfasını import ediyoruz
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -57,6 +58,11 @@ function App() {
             />
 
             <Route 
+              path="/profile" 
+              element={isAuthenticated ? <OgrenciProfil /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route 
               path="/gameselection" 
               element={isAuthenticated ? <GameSelection /> : <Navigate to="/auth" replace />} 
             />
@@ -84,6 +90,11 @@ function App() {
             <Route 
               path="/sinif/lise/9/:ders/:unite/:konu/game" 
               element={isAuthenticated ? <GamePage /> : <Navigate to="/auth" replace />} 
+            />
+
+            <Route 
+              path="/analytics" 
+              element={isAuthenticated ? <Navigate to="/profile" replace /> : <Navigate to="/auth" replace />} 
             />
 
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { User, Play, BarChart2, LogOut, Menu, X } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function Sidebar({ isAuthenticated, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
   
   const menuItems = [
-    { icon: <User size={20} />, text: "Profil", path: "/profile", active: false },
-    { icon: <Play size={20} />, text: "Oyunlar", path: "/gameselection", active: true },
-    { icon: <BarChart2 size={20} />, text: "Analizler", path: "/analytics", active: false },
+    { icon: <User size={20} />, text: "Profil", path: "/profile", active: location.pathname === "/profile" },
+    { icon: <Play size={20} />, text: "Oyunlar", path: "/gameselection", active: location.pathname === "/gameselection" },
+    { icon: <BarChart2 size={20} />, text: "Analizler", path: "/profile", active: location.pathname === "/analytics" },
   ];
 
   const handleLogout = () => {
