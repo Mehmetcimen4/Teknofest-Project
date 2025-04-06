@@ -13,6 +13,7 @@ function AuthSystem({ onAuthSuccess }) {
     name: '',
     surname: '',
     tcNo: '',
+    birthDate: '',
     school: '',
     grade: '',
     level: '' // 'primary', 'middle', 'high'
@@ -22,6 +23,7 @@ function AuthSystem({ onAuthSuccess }) {
     name: '',
     surname: '',
     tcNo: '',
+    birthDate: '',
     school: '',
     subject: '',
     level: '' // 'primary', 'middle', 'high'
@@ -291,6 +293,26 @@ function AuthSystem({ onAuthSuccess }) {
                     />
                   </div>
                 </div>
+
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="birthDate">
+                    Doğum Tarihi
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                      <FaIdCard />
+                    </span>
+                    <input
+                      type="date"
+                      id="birthDate"
+                      name="birthDate"
+                      value={studentForm.birthDate}
+                      onChange={(e) => handleFormChange(e, 'student')}
+                      className={`w-full pl-10 pr-3 py-2 border ${borderColor} rounded-md focus:outline-none focus:ring-2 ${focusRingColor}`}
+                      required
+                    />
+                  </div>
+                </div>
                 
                 <div>
                   <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="school">
@@ -462,6 +484,26 @@ function AuthSystem({ onAuthSuccess }) {
                       required
                       minLength="11"
                       maxLength="11"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="birthDate">
+                    Doğum Tarihi
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                      <FaIdCard />
+                    </span>
+                    <input
+                      type="date"
+                      id="birthDate"
+                      name="birthDate"
+                      value={teacherForm.birthDate}
+                      onChange={(e) => handleFormChange(e, 'teacher')}
+                      className={`w-full pl-10 pr-3 py-2 border ${borderColor} rounded-md focus:outline-none focus:ring-2 ${focusRingColor}`}
+                      required
                     />
                   </div>
                 </div>

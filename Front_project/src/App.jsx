@@ -13,6 +13,7 @@ import KonuDetay from './pages/KonuDetay';
 import Registration from './pages/Registration';
 import AuthSystem from './Components/AuthSystem';
 import OgrenciProfil from './pages/Profile'; // Profil sayfasını import ediyoruz
+import StudentAnalytics from './pages/Analize'; // Analiz sayfasını import ediyoruz
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -94,7 +95,7 @@ function App() {
 
             <Route 
               path="/analytics" 
-              element={isAuthenticated ? <Navigate to="/profile" replace /> : <Navigate to="/auth" replace />} 
+              element={isAuthenticated ? <StudentAnalytics /> : <Navigate to="/auth" replace />} 
             />
 
             <Route path="*" element={<Navigate to="/" replace />} />
